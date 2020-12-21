@@ -127,3 +127,52 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# dantrim
+# python
+
+*.pyc
+*.log
+*.egg-info
+*.pickle
+*pycache*
+
+# build files
+*.lo
+*.o
+*.obj
+*.so
+*.dylib
+*.dll
+*.cxx.d
+
+# emacs ignore
+*~
+*.autosave
+
+# vim autosave
+*.swo
+*.swp
+*.swk
+*.swn
+*.slo
+
+# binary files
+*.evt
+*.root
+*.hex
+*.bin
+
+# image files
+*.eps
+*.jpg
+#*.pdf
+*.jpeg
+
+#Vivado ignores
+
+# misc
+*.app/
+
+# rust
+*target/
