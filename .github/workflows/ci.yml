@@ -30,18 +30,24 @@ jobs:
             - name: hamming encode
               run: |
                   encoding=($(hamming encode 0x4235 16))
-                  echo ${encoding[@]}
-                  [ ${encoding[0]} == "0x8a3ac" ]
-                  [ ${encoding[1]} == "21" ]
+                  echo "encode output: ${encoding[@]}"
+                  # test encoded value
+                  [ ${encoding[0]} = "0x8a3ac" ]
+                  # test encoded length
+                  [ ${encoding[1]} = "21" ]
             - name: hamming decode
               run: |
                   decoding=($(hamming decode 0x8a3ac 21))
-                  echo ${decoding[@]}
-                  [ ${decoding[0]} == "0x4235" ]
-                  [ ${decoding[1]} == "16" ]
+                  echo "decode output: ${decoding[@]}"
+                  # test decoded value
+                  [ ${decoding[0]} = "0x4235" ]
+                  # test decoded length
+                  [ ${decoding[1]} = "16" ]
             - name: hamming decode error correction
               run: |
                   decoding=($(hamming decode 0x8a1ac 21))
-                  echo ${decoding[@]}
-                  [ ${decoding[0]} == "0x4245" ]
-                  [ ${decoding[1]} == "16" ]
+                  echo "decode output: ${decoding[@]}"
+                  # test decoded value
+                  [ ${decoding[0]} = "0x4235" ]
+                  # test decoded length
+                  [ ${decoding[1]} = "16" ]
