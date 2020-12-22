@@ -35,40 +35,34 @@ jobs:
             - name: Build C++ library
               run: |
                   site_packages=$(python -m site --user-site)
-                  echo "site_packages = ${site_packages}"
+                  echo "Setting PYTHONPATH: ${site_packages}"
                   export PYTHONPATH=${site_packages}
                   mkdir build/
                   pushd build/
                   cmake ..
                   make
+                  popd
             - name: Test C++ encode
               run: |
-                  echo "PWD = $(pwd)"
-                  ls -ltrh
-                  #- name: hamming
-                  #  run: |
-                  #      hamming -h
-                  #- name: hamming encode
-                  #  run: |
-                  #      encoding=($(hamming encode 0x4235 16))
-                  #      echo "encode output: ${encoding[@]}"
-                  #      # test encoded value
-                  #      [ ${encoding[0]} = "0x8a3ac" ]
-                  #      # test encoded length
-                  #      [ ${encoding[1]} = "21" ]
-                  #- name: hamming decode
-                  #  run: |
-                  #      decoding=($(hamming decode 0x8a3ac 21))
-                  #      echo "decode output: ${decoding[@]}"
-                  #      # test decoded value
-                  #      [ ${decoding[0]} = "0x4235" ]
-                  #      # test decoded length
-                  #      [ ${decoding[1]} = "16" ]
-                  #- name: hamming decode error correction
-                  #  run: |
-                  #      decoding=($(hamming decode 0x8a1ac 21))
-                  #      echo "decode output: ${decoding[@]}"
-                  #      # test decoded value
-                  #      [ ${decoding[0]} = "0x4235" ]
-                  #      # test decoded length
-                  #      [ ${decoding[1]} = "16" ]
+                  encoding=($(./build/bin/encode 0x4235 16))
+                  echo "encode output: ${encoding[@]}"
+                  # test encoded value
+                  [ ${encoding[0]} = "0x8a3ac" ]
+                  # test encoded length
+                  [ ${encoding[1]} = "21" ]
+            - name: Test C++ decode
+              run: |
+                  decoding=($(./build/bin/decode 0x8a3ac 21))
+                  echo "decode output: ${decoding[@]}"
+                  # test decoded value
+                  [ ${decoding[0]} = "0x4235" ]
+                  # test decoded length
+                  [ ${decoding[1]} = "16" ]
+            - name: Test C++ decode error correction
+              run: |
+                  decoding=($(./build/bin/decode 0x8a1ac 21))
+                  echo "decode output: ${decoding[@]}"
+                  # test decoded value
+                  [ ${decoding[0]} = "0x4235" ]
+                  # test decoded length
+                  [ ${decoding[1]} = "16" ]
