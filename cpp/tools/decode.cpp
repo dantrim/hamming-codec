@@ -37,8 +37,13 @@ int main(int argc, char* argv[]) {
                 return 1;
         } // switch
     } // while
-    if((argc - optind) > 2) {
+    auto n_pos = (argc - optind);
+    if(n_pos > 2) {
         std::cerr << "Too many positional arguments provided" << std::endl;
+        return 1;
+    }
+    if(n_pos != 2) {
+        std::cerr << "Missing positional arguments!" << std::endl;
         return 1;
     }
 

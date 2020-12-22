@@ -25,13 +25,13 @@ std::string int2bin(uint64_t data, uint32_t n_bits)
 std::string encode(uint64_t data, uint32_t n_bits)
 {
     py::scoped_interpreter guard;
-    py::module_ sys = py::module_::import("sys");
 
-    // temporary hardcode while figure somethign
-    // better out
+    // a kludge to get things working with virtual environments
+    py::module_ sys = py::module_::import("sys");
     sys.attr("path")
         .attr("insert")
         (0, hamming_codec::utils::python_path());
+
     auto hamming_codec = py::module::import("hamming_codec");
     py::object result = hamming_codec.attr("encode")(data, n_bits);
     auto binary_string = result.cast<std::string>();
@@ -41,13 +41,13 @@ std::string encode(uint64_t data, uint32_t n_bits)
 std::string decode(std::string binary_string, uint32_t n_bits)
 {
     py::scoped_interpreter guard;
-    py::module_ sys = py::module_::import("sys");
 
-    // temporary hardcode while figure somethign
-    // better out
+    // a kludge to get things working with virtual environments
+    py::module_ sys = py::module_::import("sys");
     sys.attr("path")
         .attr("insert")
         (0, hamming_codec::utils::python_path());
+
     auto hamming_codec = py::module::import("hamming_codec");
     py::object result = hamming_codec.attr("decode")(binary_string, n_bits);
     auto binary_string_decoded = result.cast<std::string>();
