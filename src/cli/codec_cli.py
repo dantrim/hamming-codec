@@ -2,7 +2,7 @@
 
 import click
 
-import hamming_codec.utils as utils
+import hamming_codec
 
 
 @click.group(name="codec")
@@ -24,7 +24,7 @@ def encode(input, n_bits):
     # convert to binary string of `n_bits` bits
     input_data_binary_string = f"{bin(input_data)[2:]:0>{n_bits}}"
     # encode
-    encoded_binary_string = utils.encode(input_data, n_bits)
+    encoded_binary_string = hamming_codec.encode(input_data, n_bits)
     encoded_int = int(encoded_binary_string, 2)
     print(f"Input value         : 0x{input}, size = {n_bits} bits")
     print(f"Input value (bin)   : 0b{input_data_binary_string}")
@@ -48,7 +48,7 @@ def decode(input, n_bits):
     # convert to binary string of `n_bits_input` bits
     input_data_binary_string = f"{bin(input_data)[2:]:0>{n_bits_input}}"
     # decode
-    decoded_binary_string = utils.decode(input_data_binary_string, n_bits_input)
+    decoded_binary_string = hamming_codec.decode(input_data_binary_string, n_bits_input)
     decoded_int = int(decoded_binary_string, 2)
     print(f"Input value         : 0x{input}, size = {n_bits_input} bits")
     print(f"Input value (bin)   : 0b{input_data_binary_string}")
