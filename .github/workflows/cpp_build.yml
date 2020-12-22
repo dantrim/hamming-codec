@@ -32,6 +32,9 @@ jobs:
                   python -m pip list
             - name: Build C++ library
               run: |
+                  site_packages=$(python -m site --user-site)
+                  echo "site_packages = ${site_packages}"
+                  export PYTHONPATH=${site_packages}
                   mkdir build/
                   pushd build/
                   cmake ..
