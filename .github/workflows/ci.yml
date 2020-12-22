@@ -1,7 +1,7 @@
-name: learn-github-actions
+name: CI/CD
 on: [push]
 jobs:
-    my-dummy-job:
+    test:
         strategy:
             matrix:
                 os: [ubuntu-latest, macos-latest]
@@ -19,9 +19,12 @@ jobs:
                   python -m pip install --upgrade pip setuptools wheel
                   python -m pip install --ignore-installed --no-cache-dir .
                   python -m pip list
-            - name: Check Hamming
+            - name: hamming
               run: |
                   hamming -h
-            - name: List Directories
+            - name: hamming encode
               run: |
-                  ls -ltrh
+                  hamming encode 0x4235 16
+            - name: hamming decode
+              run: |
+                  hamming decode 0x8a3ac 21
