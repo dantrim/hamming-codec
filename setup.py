@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 HERE = pathlib.Path(__file__).parent
 
 # the text of the README file
-README = (HERE / "README.md").read_text()
+README = (HERE / "README.rst").read_text()
 
 setup(
     name="hamming-codec",

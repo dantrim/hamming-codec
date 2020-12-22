@@ -1,0 +1,35 @@
+name: CI/CD
+on: [push, pull_request]
+jobs:
+    test:
+        strategy:
+            matrix:
+                os: [ubuntu-latest, macos-latest]
+                python-version: [3.6, 3.7, 3.8]
+                exclude:
+                    - os: macos-latest
+                      python-version: 3.6
+                    - os: macos-latest
+                      python-version: 3.7
+        runs-on: ${{ matrix.os }}
+        steps:
+            - uses: actions/checkout@v2
+            - name: Set up Python ${{ matrix.python-version }}
+              uses: actions/setup-python@v2
+              with:
+                  python-version: ${{ matrix.python-version }}
+            - name: Install
+              run: |
+                  python --version
+                  python -m pip install --upgrade pip setuptools wheel
+                  python -m pip install --ignore-installed --no-cache-dir .
+                  python -m pip list
+            - name: hamming
+              run: |
+                  hamming -h
+            - name: hamming encode
+              run: |
+                  hamming encode 0x4235 16
+            - name: hamming decode
+              run: |
+                  hamming decode 0x8a3ac 21
