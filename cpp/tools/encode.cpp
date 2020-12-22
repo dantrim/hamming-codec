@@ -37,8 +37,13 @@ int main(int argc, char* argv[]) {
                 return 1;
         } // switch
     } // while
-    if((argc - optind) > 2) {
+    auto n_pos = (argc - optind);
+    if(n_pos > 2) {
         std::cerr << "Too many positional arguments provided" << std::endl;
+        return 1;
+    }
+    if(n_pos != 2) {
+        std::cerr << "Missing positional arguments!" << std::endl;
         return 1;
     }
 
@@ -48,6 +53,7 @@ int main(int argc, char* argv[]) {
     if(n_bits<4) {
         throw std::runtime_error("Cannot encode values that are less than 4 bits in length!");
     }
+
 
     uint64_t input_data = std::stoul(input_data_string, 0, 16);
     auto input_data_binary_string = hamming_codec::int2bin(input_data, n_bits);
