@@ -54,7 +54,6 @@ int main(int argc, char* argv[]) {
         throw std::runtime_error("Cannot encode values that are less than 4 bits in length!");
     }
 
-
     uint64_t input_data = std::stoul(input_data_string, 0, 16);
     auto input_data_binary_string = hamming_codec::int2bin(input_data, n_bits);
 
