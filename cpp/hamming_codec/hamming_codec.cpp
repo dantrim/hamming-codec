@@ -1,4 +1,5 @@
 #include "hamming_codec.h"
+#include "utils.h"
 
 #include <pybind11/embed.h>
 namespace py = pybind11;
@@ -30,7 +31,7 @@ std::string encode(uint64_t data, uint32_t n_bits)
     // better out
     sys.attr("path")
         .attr("insert")
-        (1, "/Users/dantrim/workarea/hamming-codec/env/lib/python3.8/site-packages");
+        (0, hamming_codec::utils::python_path());
     auto hamming_codec = py::module::import("hamming_codec");
     py::object result = hamming_codec.attr("encode")(data, n_bits);
     auto binary_string = result.cast<std::string>();
@@ -46,7 +47,7 @@ std::string decode(std::string binary_string, uint32_t n_bits)
     // better out
     sys.attr("path")
         .attr("insert")
-        (1, "/Users/dantrim/workarea/hamming-codec/env/lib/python3.8/site-packages");
+        (0, hamming_codec::utils::python_path());
     auto hamming_codec = py::module::import("hamming_codec");
     py::object result = hamming_codec.attr("decode")(binary_string, n_bits);
     auto binary_string_decoded = result.cast<std::string>();
