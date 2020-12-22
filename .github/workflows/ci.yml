@@ -29,7 +29,11 @@ jobs:
                   hamming -h
             - name: hamming encode
               run: |
-                  hamming encode 0x4235 16
+                  encoding=($(hamming encode 0x4235 16))
+                  [ ${encoding[0]} == "0x8a3ac" ]
+                  [ ${encoding[1]} == "21" ]
             - name: hamming decode
               run: |
-                  hamming decode 0x8a3ac 21
+                  decoding=($(hamming decode 0x8a3ac 21))
+                  [ ${decoding[0]} == "0x4235" ]
+                  [ ${decoding[1]} == "16" ]
