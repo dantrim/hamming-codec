@@ -17,7 +17,7 @@ jobs:
               run: |
                   python --version
                   python -m pip install --upgrade pip setuptools wheel
-                  python -m pip install --ignore-installed -U -q --no-cache-dir -e .
+                  python -m pip install --ignore-installed --no-cache-dir .
                   python -m pip list
             - name: Check Hamming
               run: |
