@@ -2,11 +2,11 @@ name: learn-github-actions
 on: [push]
 jobs:
     my-dummy-job:
+        runs-on: $${ matrix.os }}
         strategy:
             matrix:
                 os: [ubuntu-latest, macos-latest]
                 python-version: [3.6, 3.7, 3.8]
-        runs-on: $${ matrix.os }}
         steps:
             - uses: actions/checkout@v2
             - name: Set up Python ${{ matrix.python-version }}
