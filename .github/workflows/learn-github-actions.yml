@@ -1,0 +1,21 @@
+name: learn-github-actions
+on: [push]
+jobs:
+    my-dummy-job:
+        strategy:
+            matrix:
+                os: [ubuntu-latest, macos-latest]
+                python-version: [3.6, 3.7, 3.8]
+        runs-on: $${ matrix.os }}
+        steps:
+            - uses: actions/checkout@v2
+            - name: Set up Python ${{ matrix.python-version }}
+              uses: actions/setup-python@v2
+              with:
+                  python-version: ${{ matrix.python-version }}
+            - name: Install dependencies
+              run: |
+                  python --version
+                  python -m pip install --upgrade pip setuptools wheel
+                  python -m pip install --ignore-installed -U -q --no-cache-dir -e .
+                  python -m pip list
