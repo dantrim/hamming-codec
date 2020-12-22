@@ -58,6 +58,9 @@ def encode(data: int, n_bits: int) -> str:
     # parity bits are at powers of 2
     n_parity_bits = n_parity_bits_required(n_bits)
     parity_bit_positions = [2 ** i - 1 for i in range(n_parity_bits)]
+    parity_bit_positions = list(
+        filter(lambda x: x < len(binary_string), parity_bit_positions)
+    )
 
     binary_string_reversed = "".join(reversed(binary_string))
 
@@ -92,6 +95,9 @@ def decode(binary_string: str, n_bits: int) -> str:
 
     n_parity_bits = n_parity_bits_required(n_bits)
     parity_bit_positions = [2 ** i - 1 for i in range(n_parity_bits)]
+    parity_bit_positions = list(
+        filter(lambda x: x < len(binary_string), parity_bit_positions)
+    )
 
     binary_string_reversed = "".join(reversed(list(binary_string)))
     parity_bits = compute_parity_bits(
