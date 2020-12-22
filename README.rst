@@ -3,7 +3,7 @@ hamming-codec
 Simple encode/decode utilties for single-bit error correcting Hamming codes
 
 |GitHub Actions Status: Test|
-|pre-commit.cit Status| |Code style: black|
+|pre-commit.ci Status| |Code style: black|
 
 .. |GitHub Actions Status: Test| image:: https://github.com/dantrim/hamming-codec/workflows/learn-github-actions/badge.svg?branch=main
    :target: https://github.com/dantrim/hamming-codec/actions?query=workflow%3Alearn-github-actions+branch%3Aadd_workflows
