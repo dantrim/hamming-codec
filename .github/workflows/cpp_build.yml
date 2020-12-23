@@ -35,9 +35,7 @@ jobs:
                   python -m pip install --upgrade pip setuptools wheel
                   python -m pip install --ignore-installed --no-cache-dir .
                   python -m pip list
-                  unset PYTHONPATH
-                  export PYTHONPATH=$(python -c 'import sysconfig; print(sysconfig.get_paths()["purelib"])')
-                  echo "PYTHONPATH has been set: ${PYTHONPATH}"
+                  source bash/set_pythonpath.sh
                   deactivate
                   # now build the C++ utilities
                   mkdir build/
