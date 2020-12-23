@@ -26,8 +26,9 @@ jobs:
                   cmake-version: '3.18.x'
             - name: Check CMake version
               run: cmake --version
-            - name: Install python library
+            - name: Build C++ library
               run: |
+                  # first install the python back-end
                   python -m venv env
                   source env/bin/activate
                   python --version
@@ -38,8 +39,7 @@ jobs:
                   export PYTHONPATH=$(python -c 'import sysconfig; print(sysconfig.get_paths()["purelib"])')
                   echo "PYTHONPATH has been set: ${PYTHONPATH}"
                   deactivate
-            - name: Build C++ library
-              run: |
+                  # now build the C++ utilities
                   mkdir build/
                   pushd build/
                   cmake ..
