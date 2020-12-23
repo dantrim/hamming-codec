@@ -28,15 +28,18 @@ jobs:
               run: cmake --version
             - name: Install python library
               run: |
+                  python -m venv env
+                  source env/bin/activate
                   python --version
                   python -m pip install --upgrade pip setuptools wheel
                   python -m pip install --ignore-installed --no-cache-dir .
                   python -m pip list
+                  unset PYTHONPATH
+                  export PYTHONPATH=$(python -c 'import sysconfig; print(sysconfig.get_paths()["purelib"])')
+                  echo "PYTHONPATH has been set: ${PYTHONPATH}"
+                  deactivate
             - name: Build C++ library
               run: |
-                  site_packages=$(python -m site --user-site)
-                  echo "Setting PYTHONPATH: ${site_packages}"
-                  export PYTHONPATH=${site_packages}
                   mkdir build/
                   pushd build/
                   cmake ..
