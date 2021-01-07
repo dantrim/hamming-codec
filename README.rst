@@ -59,12 +59,12 @@ After installation you can decode Hamming encoded messages of specified length (
    $ hamming decode 0x2a3a1 21
    0x1234 16
 
-Which shows that the 21-bit encoded message `0x2a3a1` is decoded back into the 16-bit word `0x1234`.
+Which shows that the 21-bit encoded message ``0x2a3a1`` is decoded back into the 16-bit word ``0x1234``.
 
 Single-bit Error Detection
 --------------------------
 Single-bit errors are detected and corrected in the decoding process. For example, if we flip a single bit
-in the encoded message in the previous section such that the 21-bit word `0x2a3a1` becomes `0x2a1a1`,
+in the encoded message in the previous section such that the 21-bit word ``0x2a3a1`` becomes ``0x2a1a1``,
 you will get the same decoded message as before:
 
 .. code-block:: bash
