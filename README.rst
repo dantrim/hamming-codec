@@ -68,6 +68,7 @@ in the encoded message in the previous section such that the 21-bit word `0x2a3a
 you will get the same decoded message as before:
 
 .. code-block:: bash
+
    $ hamming decode 0x2a1a1 21
    0x1234 16
 
