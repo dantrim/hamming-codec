@@ -13,6 +13,7 @@ Simple encode/decode utilties for single-bit error correcting Hamming codes
      * [Command-line Usage](#from-the-command-line-cpp)
      * [Linking to the Shared Library](#linking-to-the-shared-library)
  5. [Error-correction](#single-bit-error-correction)
+ 6. [References](#references)
 
 [![GitHub Actions Status Badge: CI/CD]][GitHub Actions Status: CI/CD]
 [![GitHub Actions Status Badge: cpp_build]][GitHub Actions Status: cpp_build]
@@ -164,6 +165,14 @@ $ {env} hamming decode 0x2a3a1 21
 $ {env} hamming decode 0x2a1a1 21 # flipped a bit
 0x1234 16
 ```
+
+## References
+Further information about the Hamming encoding algorithm employed within `hamming-codec` can be found in the following resources:
+  * [3Blue1Brown's "Hamming codes and error correction"](https://www.youtube.com/watch?v=X8jsijhllIA)
+  * [Ben Eater's "What is error correction? Hamming codes in hardware"](https://www.youtube.com/watch?v=h0jloehRKas)
+  * [tutorialspoint's "Error Correcting Codes - Hamming codes"](https://www.tutorialspoint.com/error-correcting-codes-hamming-codes)
+  * [Wikipedia entry for "Hamming Code"](https://en.wikipedia.org/wiki/Hamming_code)
+  * [Wikipedia entry for "Linear error-correcting codes"](https://en.wikipedia.org/wiki/Linear_code)
 
 <!--- LINKS --->
 [pre-commit.ci status badge]:https://results.pre-commit.ci/badge/github/dantrim/hamming-codec/main.svg
