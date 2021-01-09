@@ -17,25 +17,14 @@ def n_parity_bits_required(n_bits: int) -> int:
 def compute_parity_bits(binary_string: str, positions: list, inclusive: bool) -> list:
 
     parity_bits = [0 for _ in positions]
+
     for i, p in enumerate(positions):
         mask = 1 << i
-        if not inclusive:
-            r_pos = [
-                x
-                for x in list(
-                    filter(
-                        lambda d: (mask & d != 0) and (mask != d),
-                        range(len(binary_string)),
-                    )
-                )
-            ]
-        else:
-            r_pos = [
-                x
-                for x in list(
-                    filter(lambda d: (mask & d != 0), range(len(binary_string)))
-                )
-            ]
+        filter_func = {
+            False: lambda d: (mask & d != 0) and (mask != d),
+            True: lambda d: (mask & d != 0),
+        }[inclusive]
+        r_pos = [x for x in list(filter(filter_func, range(len(binary_string) + 1)))]
         data_sel = [int(list(binary_string)[d - 1], 2) for d in r_pos]
         xor = reduce(op.xor, data_sel)
         if xor == 1:
@@ -58,18 +47,20 @@ def encode(data: int, n_bits: int) -> str:
     # parity bits are at powers of 2
     n_parity_bits = n_parity_bits_required(n_bits)
     parity_bit_positions = [2 ** i - 1 for i in range(n_parity_bits)]
+
+    len_encoded_message = n_parity_bits + n_bits
     parity_bit_positions = list(
-        filter(lambda x: x < len(binary_string), parity_bit_positions)
+        filter(lambda x: x < len_encoded_message, parity_bit_positions)
     )
 
     binary_string_reversed = "".join(reversed(binary_string))
 
     # placeholder string
-    seed_string = "".join(["x" for _ in range(n_parity_bits + len(binary_string))])
+    seed_string = "".join(["x" for _ in range(len_encoded_message)])
     seed_string = list(seed_string)
 
     data_idx = 0
-    for idx in range(len(seed_string)):
+    for idx in range(len_encoded_message):
         if idx not in parity_bit_positions:
             seed_string[idx] = list(binary_string_reversed)[data_idx]
             data_idx += 1
