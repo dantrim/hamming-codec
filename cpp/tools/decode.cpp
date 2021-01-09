@@ -62,9 +62,9 @@ int main(int argc, char* argv[]) {
     uint64_t decoded_int = std::stoul(decoded_binary_string, 0, 2);
     if(verbose) {
         std::cout << "Input value         : 0x" << std::hex << input_data << std::dec << ", size = " << n_bits << " bits" << std::endl;
-        std::cout << "Input value (bin)   : 0b" << decoded_binary_string << std::endl;
-        std::cout << "Encoded value       : 0x" << std::hex << decoded_int << std::dec << std::endl;
-        std::cout << "Encoded value (bin) : 0b" << decoded_binary_string << ", size = " << decoded_binary_string.length() << " bits" << std::endl;
+        std::cout << "Input value (bin)   : 0b" << input_data_binary_string << std::endl;
+        std::cout << "Decoded value       : 0x" << std::hex << decoded_int << std::dec << std::endl;
+        std::cout << "Decoded value (bin) : 0b" << decoded_binary_string << ", size = " << decoded_binary_string.length() << " bits" << std::endl;
     } else {
         std::cout << "0x" << std::hex << decoded_int << std::dec << " " << decoded_binary_string.length() << std::endl;
     }
