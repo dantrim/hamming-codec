@@ -1,6 +1,11 @@
 # hamming-codec
 Simple encode/decode utilties for single-bit error correcting Hamming codes
 
+[![GitHub Actions Status Badge: CI/CD]][GitHub Actions Status: CI/CD]
+[![GitHub Actions Status Badge: cpp_build]][GitHub Actions Status: cpp_build]
+[![pre-commit.ci status][pre-commit.ci status badge]][pre-commit.ci status]
+[![Code style: black][black badge]](https://github.com/psf/black)
+
 # Table of Contents
  1. [Requirements](#requirements)
  2. [Installation](#installation)
@@ -14,11 +19,6 @@ Simple encode/decode utilties for single-bit error correcting Hamming codes
      * [Linking to the Shared Library](#linking-to-the-shared-library)
  5. [Error-correction](#single-bit-error-correction)
  6. [References](#references)
-
-[![GitHub Actions Status Badge: CI/CD]][GitHub Actions Status: CI/CD]
-[![GitHub Actions Status Badge: cpp_build]][GitHub Actions Status: cpp_build]
-[![pre-commit.ci status][pre-commit.ci status badge]][pre-commit.ci status]
-[![Code style: black][black badge]](https://github.com/psf/black)
 
 # Requirements
 
