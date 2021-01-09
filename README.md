@@ -8,7 +8,7 @@ Simple encode/decode utilties for single-bit error correcting Hamming codes
      * [C++](#cpp-installation)
  3. [Python Usage](#python-usage)
      * [Command-line Usage](#from-the-command-line)
-     * [Python Module Importing](#importing-as-a-module)
+     * [Importing the `hamming_codec` Python Module](#importing-as-a-module)
  4. [C++ Usage](#cpp-usage)
      * [Command-line Usage](#from-the-command-line-cpp)
      * [Linking to the Shared Library](#linking-to-the-shared-library)
