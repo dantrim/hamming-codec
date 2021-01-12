@@ -1,5 +1,6 @@
-add_subdirectory(hamming_codec)
-add_subdirectory(examples)
+#add_subdirectory(hamming_codec)
+add_subdirectory(cpp)
+#add_subdirectory(examples)
 if (BUILD_PYTHON)
     message(STATUS "Building python bindings for hamming-codec")
     add_subdirectory(python)

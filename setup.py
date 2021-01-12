@@ -19,7 +19,7 @@ except ImportError:
 
 setup(
     name="hamming_codec",
-    version="1.0.0",
+    version="0.1.0",
     description="Simple encode/decode utilities for bit-error correcting Hamming codes",
     long_description=README,
     long_description_content_type="text/markdown",
