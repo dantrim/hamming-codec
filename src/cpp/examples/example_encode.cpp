@@ -1,6 +1,8 @@
 // std/stl
 #include <iostream>
 #include <getopt.h>
+#include <cstdlib>
+#include <sstream>
 
 // hamming codec wrapper
 #include "hamming_codec.h"
@@ -59,7 +61,7 @@ int main(int argc, char* argv[]) {
 
     // encode
     auto encoded_binary_string = hamming_codec::encode(input_data, n_bits);
-    uint64_t encoded_int = std::stoul(encoded_binary_string, 0, 2);
+    uint64_t encoded_int = std::stoul(encoded_binary_string, nullptr, 2);
     if(verbose) {
         std::cout << "Input value         : 0x" << std::hex << input_data << std::dec << ", size = " << n_bits << " bits" << std::endl;
         std::cout << "Input value (bin)   : 0b" << input_data_binary_string << std::endl;
