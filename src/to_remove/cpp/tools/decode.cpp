@@ -12,7 +12,7 @@ void usage(char* argv[]) {
     std::cerr << " -h|--help    Print this help message." << std::endl;
     std::cerr << std::endl;
     std::cerr << "POSITIONAL ARGUMENTS:" << std::endl;
-    std::cerr << " INPUT        Input data to be encoded (as hexadecimal string)" << std::endl;
+    std::cerr << " INPUT        Input data to be decoded (as hexadecimal string)" << std::endl;
     std::cerr << " N_BITS       Size, in number of bits, of the input data" << std::endl;
 }
 
@@ -51,22 +51,22 @@ int main(int argc, char* argv[]) {
     uint32_t n_bits = std::stoul(argv[optind++]);;
 
     if(n_bits<4) {
-        throw std::runtime_error("Cannot encode values that are less than 4 bits in length!");
+        throw std::runtime_error("Cannot decode values that are less than 4 bits in length!");
     }
 
     uint64_t input_data = std::stoul(input_data_string, 0, 16);
     auto input_data_binary_string = hamming_codec::int2bin(input_data, n_bits);
 
     // encode
-    auto encoded_binary_string = hamming_codec::encode(input_data, n_bits);
-    uint64_t encoded_int = std::stoul(encoded_binary_string, 0, 2);
+    auto decoded_binary_string = hamming_codec::decode(input_data_binary_string, n_bits);
+    uint64_t decoded_int = std::stoul(decoded_binary_string, 0, 2);
     if(verbose) {
         std::cout << "Input value         : 0x" << std::hex << input_data << std::dec << ", size = " << n_bits << " bits" << std::endl;
         std::cout << "Input value (bin)   : 0b" << input_data_binary_string << std::endl;
-        std::cout << "Encoded value       : 0x" << std::hex << encoded_int << std::dec << std::endl;
-        std::cout << "Encoded value (bin) : 0b" << encoded_binary_string << ", size = " << encoded_binary_string.length() << " bits" << std::endl;
+        std::cout << "Decoded value       : 0x" << std::hex << decoded_int << std::dec << std::endl;
+        std::cout << "Decoded value (bin) : 0b" << decoded_binary_string << ", size = " << decoded_binary_string.length() << " bits" << std::endl;
     } else {
-        std::cout << "0x" << std::hex << encoded_int << std::dec << " " << encoded_binary_string.length() << std::endl;
+        std::cout << "0x" << std::hex << decoded_int << std::dec << " " << decoded_binary_string.length() << std::endl;
     }
     return 0;
 }
