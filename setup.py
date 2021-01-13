@@ -1,5 +1,7 @@
 import sys
 import pathlib
+import subprocess
+from setuptools import find_packages
 
 # the directory containing this file
 HERE = pathlib.Path(__file__).parent
@@ -32,8 +34,8 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
     ],
-    package_dir={"": "src/python"},
-    packages=["hamming_codec", "cli"],
+    package_dir={"":"src/python"},
+    packages=["hamming_codec", "cli"], #find_packages(),#["hamming_codec", "cli", "pybind11"],
     install_requires=["click"],
     cmake_args=["-DBUILD_PYTHON=on"],
     cmake_install_dir="src/python/hamming_codec",
