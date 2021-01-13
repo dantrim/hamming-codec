@@ -35,7 +35,7 @@ setup(
         "Programming Language :: Python :: 3.8",
     ],
     package_dir={"":"src/python"},
-    packages=["hamming_codec", "cli"], #find_packages(),#["hamming_codec", "cli", "pybind11"],
+    packages=["hamming_codec", "cli"],
     install_requires=["click"],
     cmake_args=["-DBUILD_PYTHON=on"],
     cmake_install_dir="src/python/hamming_codec",
