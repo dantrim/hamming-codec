@@ -144,12 +144,11 @@ in the encoded message [from a previous section](#encoding) such that the 21-bit
 you will get the same decoded message as before:
 
 ```bash
-$ source env/bin/activate
-$ {env} hamming encode 0x1234 16
+$ hamming encode 0x1234 16
 0x2a3a1 21
-$ {env} hamming decode 0x2a3a1 21
+$ hamming decode 0x2a3a1 21
 0x1234 16
-$ {env} hamming decode 0x2a1a1 21 # flipped a bit
+$ hamming decode 0x2a1a1 21 # flipped a bit
 0x1234 16
 ```
 
