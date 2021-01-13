@@ -28,16 +28,6 @@ jobs:
               run: cmake --version
             - name: Build C++ library
               run: |
-                  # first install the python back-end
-                  python -m venv env
-                  source env/bin/activate
-                  python --version
-                  python -m pip install --upgrade pip setuptools wheel
-                  python -m pip install --ignore-installed --no-cache-dir .
-                  python -m pip list
-                  source bash/set_pythonpath.sh
-                  deactivate
-                  # now build the C++ utilities
                   mkdir build/
                   pushd build/
                   cmake ..
@@ -45,7 +35,7 @@ jobs:
                   popd
             - name: Test C++ encode
               run: |
-                  encoding=($(./build/bin/encode 0x4235 16))
+                  encoding=($(./build/bin/example_encode 0x4235 16))
                   echo "encode output: ${encoding[@]}"
                   # test encoded value
                   [ ${encoding[0]} = "0x8a3ac" ]
@@ -53,7 +43,7 @@ jobs:
                   [ ${encoding[1]} = "21" ]
             - name: Test C++ decode
               run: |
-                  decoding=($(./build/bin/decode 0x8a3ac 21))
+                  decoding=($(./build/bin/example_decode 0x8a3ac 21))
                   echo "decode output: ${decoding[@]}"
                   # test decoded value
                   [ ${decoding[0]} = "0x4235" ]
@@ -61,7 +51,7 @@ jobs:
                   [ ${decoding[1]} = "16" ]
             - name: Test C++ decode error correction
               run: |
-                  decoding=($(./build/bin/decode 0x8a1ac 21))
+                  decoding=($(./build/bin/example_decode 0x8a1ac 21))
                   echo "decode output: ${decoding[@]}"
                   # test decoded value
                   [ ${decoding[0]} = "0x4235" ]
