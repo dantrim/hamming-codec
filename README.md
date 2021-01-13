@@ -15,7 +15,7 @@ Simple encode/decode utilties for single-bit error correcting Hamming codes
      * [Command-line Usage](#from-the-command-line)
      * [Importing the `hamming_codec` Python Module](#importing-as-a-module)
  4. [C++ Usage](#cpp-usage)
-     * [Command-line Usage](#from-the-command-line-cpp)
+     * [Examples](#cpp-examples)
      * [Linking to the Shared Library](#linking-to-the-shared-library)
  5. [Error-correction](#single-bit-error-correction)
  6. [References](#references)
@@ -28,15 +28,14 @@ Tested on Python `>=3.6`.
 
 ## Python Installation
 
-Install using `pip` as follows, after which the command-line utility `hamming` will be available:
+Install using `pip` as follows, after which the command-line utility `hamming` will be available.
+This should ideally be done in a Pythin virtual environment:
 
 ```bash
-$ git clone https://github.com/dantrim/hamming-codec.git
+$ git clone --recursive https://github.com/dantrim/hamming-codec.git
 $ cd hamming-codec
-$ python -m venv env
-$ source env/bin/activate
-$ {env} python -m pip install .
-$ {env} hamming -h
+$ pip install .
+$ hamming -h
 Usage: hamming [OPTIONS] COMMAND [ARGS]...
 
 Top-level entrypoint into hamming-codec utilities.
@@ -52,26 +51,21 @@ Commands:
 ```
 
 ## Cpp Installation
-The `hamming-codec` library offers C++ bindings via [pybind11](https://pybind11.readthedocs.io/en/stable/)
-which can be built using CMake. As the libary is a Python-first library, it must first be built using
-the steps outlined in the [Python Installation](#python-installation) section. This is because the Python
-package must be first built and installed in order for [pybind11](https://pybind11.readthedocs.io/en/stable/)
-to properly find it and to know which Python runtime to link against.
-
-Follow these steps to ensure a proper build of the C++ bindings to the `hamming-codec` library:
+The `hamming-codec` encoding and decoding algorithm is implemented in C++, offering a Python interface
+via [pybind11](https://pybind11.readthedocs.io/en/stable/).
+If you wish to use the `hamming-codec` encoding/decoding from within a C++ library, one can
+build `hamming-codec` following the usual CMake process:
 ```bash
-$ git clone https://github.com/dantrim/hamming-codec.git
+$ git clone --recursvie https://github.com/dantrim/hamming-codec.git
 $ cd hamming-codec
-$ python -m venv env
-$ source env/bin/activate
-$ {env} python -m pip install .
-$ {env} source bash/set_pythonpath.sh
-$ {env} deactivate
 $ mkdir build
 $ cd build
 $ cmake ..
 $ make
 ```
+At which point the shared object `hamming_codec.so` (`hamming_codec.dylib`) will be available under
+your build directory's `lib/` directory.
+An example of how to link to this library can be found under the [C++ examples directory](src/cpp/examples).
 
 ## Python Usage
 
@@ -82,8 +76,7 @@ $ make
 After [installation](#python-installation) you can Hamming encode messages of specified length (in number of bits) as follows:
 
 ```bash
-$ source env/bin/activate
-$ {env} hamming encode 0x1234 16
+$ hamming encode 0x1234 16
 0x2a3a1 21
 ```
 
@@ -94,11 +87,9 @@ Which shows that the 16-bit message `0x1234` is encoded as a 21-bit word `0x2a3a
 After [installation](#python-installation) you can decode Hamming encoded messages of specified length (in number of bits) as follows:
 
 ```bash
-$ source env/bin/activate
-$ {env} hamming decode 0x2a3a1 21
+$ hamming decode 0x2a3a1 21
 0x1234 16
 ```
-
 Which shows that the 21-bit encoded message `0x2a3a1` is decoded back into the 16-bit word `0x1234`.
 
 
@@ -117,16 +108,12 @@ Once you have [installed hamming-codec](#python-installation), you can `import` 
 
 ## Cpp Usage
 
-### From the Command-line (Cpp)
-
-After following [the steps to build the C++ library](#cpp-installation), two executables are built and available
-in your build directory's `bin/` directory. The two executables are called `encode` and `decode`, each of which performs
-the same operations as the analogous [python command line utilities](#from-the-command-line):
+### Cpp Examples
+After following the [steps to build the C++ library](#cpp-installation), you 
+can run the C++ examples. For example,
 ```bash
-$ ./bin/encode 0x4235 16
+$ ./build/bin/example_encode 0x4235 16
 0x8a3ac 21
-$ ./bin/decode 0x8a3ac 21
-0x4235 16
 ```
 
 ### Linking to the Shared Library
