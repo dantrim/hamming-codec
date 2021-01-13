@@ -56,7 +56,7 @@ via [pybind11](https://pybind11.readthedocs.io/en/stable/).
 If you wish to use the `hamming-codec` encoding/decoding from within a C++ library, one can
 build `hamming-codec` following the usual CMake process:
 ```bash
-$ git clone --recursvie https://github.com/dantrim/hamming-codec.git
+$ git clone --recursive https://github.com/dantrim/hamming-codec.git
 $ cd hamming-codec
 $ mkdir build
 $ cd build
