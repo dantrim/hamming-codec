@@ -32,7 +32,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
     ],
-    package_dir={"":"src/python"},
+    package_dir={"": "src/python"},
     packages=["hamming_codec", "cli"],
     install_requires=["click"],
     cmake_args=["-DBUILD_PYTHON=on"],
