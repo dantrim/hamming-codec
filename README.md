@@ -29,7 +29,7 @@ Tested on Python `>=3.6`.
 ## Python Installation
 
 Install using `pip` as follows, after which the command-line utility `hamming` will be available.
-This should ideally be done in a Pythin virtual environment:
+This should ideally be done in a Python virtual environment:
 
 ```bash
 $ git clone --recursive https://github.com/dantrim/hamming-codec.git
