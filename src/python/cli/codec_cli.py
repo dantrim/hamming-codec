@@ -59,7 +59,7 @@ def decode(ctx, input, n_bits):
     # convert to binary string of `n_bits_input` bits
     input_data_binary_string = f"{bin(input_data)[2:]:0>{n_bits_input}}"
     # decode
-    decoded_binary_string = hamming_codec.decode(input_data_binary_string, n_bits_input)
+    decoded_binary_string = hamming_codec.decode(input_data, n_bits_input)
     decoded_int = int(decoded_binary_string, 2)
     if ctx.obj["VERBOSE"]:
         print(f"Input value         : 0x{input}, size = {n_bits_input} bits")
