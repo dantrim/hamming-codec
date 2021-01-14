@@ -85,12 +85,10 @@ std::vector<uint32_t> compute_parity_bits(std::string binary_string, std::vector
 //}
 
 std::vector<uint32_t> compute_parity_bit_positions(uint32_t n_parity_bits) {
-    std::vector<uint32_t> range(n_parity_bits);
-    std::iota(range.begin(), range.end(), 0);
-    std::vector<uint32_t> positions(n_parity_bits);
-    std::transform(range.begin(), range.end(), positions.begin(),
-        [](uint32_t v) { return static_cast<uint32_t>(pow(2,v)-1); }
-    );
+    std::vector<uint32_t> positions;
+    for(size_t i = 0; i < n_parity_bits; i++) {
+        positions.push_back(static_cast<uint32_t>(pow(2,i)-1));
+    }
     return positions;
 }
 std::vector<std::string> create_seed_string_array(std::vector<uint32_t> skip_positions, unsigned length, std::string word_to_split) {
