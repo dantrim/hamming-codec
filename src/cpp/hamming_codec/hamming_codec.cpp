@@ -69,21 +69,6 @@ std::vector<uint32_t> compute_parity_bits(std::string binary_string, std::vector
     return parity_bits;
 }
 
-//std::string int2bin(uint64_t data, uint32_t n_bits)
-//{
-//    std::string binary_string = "";
-//    int mask = 1;
-//    for(uint32_t i = 0; i < n_bits; i++) {
-//        if((mask & data) >= 1) {
-//            binary_string = "1" + binary_string;
-//        } else {
-//            binary_string = "0" + binary_string;
-//        }
-//        mask = mask << 1;
-//    } // for
-//    return binary_string;
-//}
-
 std::vector<uint32_t> compute_parity_bit_positions(uint32_t n_parity_bits) {
     std::vector<uint32_t> positions;
     for(size_t i = 0; i < n_parity_bits; i++) {
