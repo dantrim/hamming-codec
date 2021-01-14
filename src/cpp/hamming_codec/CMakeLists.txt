@@ -11,4 +11,3 @@ target_sources(hamming_codec
 )
 set_target_properties(hamming_codec PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_include_directories(hamming_codec PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-configure_file( utils.cpp.in ${CMAKE_CURRENT_SOURCE_DIR}/utils.cpp @ONLY )

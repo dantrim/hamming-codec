@@ -4,6 +4,7 @@
 
 // hamming codec wrapper
 #include "hamming_codec.h"
+#include "utils.h"
 
 void usage(char* argv[]) {
     std::cerr << "Usage: " << argv[0] << " [OPTIONS] INPUT N_BITS" << std::endl;
@@ -53,12 +54,11 @@ int main(int argc, char* argv[]) {
     if(n_bits<4) {
         throw std::runtime_error("Cannot decode values that are less than 4 bits in length!");
     }
-
     uint64_t input_data = std::stoul(input_data_string, 0, 16);
-    auto input_data_binary_string = hamming_codec::int2bin(input_data, n_bits);
+    auto input_data_binary_string = hamming_codec::utils::int2bin(input_data, n_bits);
 
-    // encode
-    auto decoded_binary_string = hamming_codec::decode(input_data_binary_string, n_bits);
+    // decode
+    auto decoded_binary_string = hamming_codec::decode(input_data, n_bits);
     uint64_t decoded_int = std::stoul(decoded_binary_string, 0, 2);
     if(verbose) {
         std::cout << "Input value         : 0x" << std::hex << input_data << std::dec << ", size = " << n_bits << " bits" << std::endl;

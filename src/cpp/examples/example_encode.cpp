@@ -4,8 +4,8 @@
 #include <cstdlib>
 #include <sstream>
 
-// hamming codec wrapper
 #include "hamming_codec.h"
+#include "utils.h"
 
 void usage(char* argv[]) {
     std::cerr << "Usage: " << argv[0] << " [OPTIONS] INPUT N_BITS" << std::endl;
@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
     }
 
     uint64_t input_data = std::stoul(input_data_string, 0, 16);
-    auto input_data_binary_string = hamming_codec::int2bin(input_data, n_bits);
+    auto input_data_binary_string = hamming_codec::utils::int2bin(input_data, n_bits);
 
     // encode
     auto encoded_binary_string = hamming_codec::encode(input_data, n_bits);
