@@ -134,7 +134,6 @@ std::string encode(uint64_t data, uint32_t n_bits)
     return hu::reverse_string(hu::join(seed_string_array));
 }
 
-//std::string decode(std::string binary_string, uint32_t n_bits)
 std::string decode(uint64_t data, uint32_t n_bits)
 {
     std::string binary_string = hu::int2bin(data, n_bits);
