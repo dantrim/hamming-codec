@@ -177,3 +177,5 @@ dmypy.json
 # rust
 *target/
 
+# visual studio code
+*.vscode
