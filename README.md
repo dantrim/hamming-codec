@@ -64,7 +64,9 @@ $ cd build
 $ cmake ..
 $ make
 ```
-At which point the shared object `hamming_codec.so` (`hamming_codec.dylib`) will be available under
+The `--recursive` flag is required in order to pull the external dependencies (i.e. [pybind11](https://pybind11.readthedocs.io/en/stable/)).
+
+After the above compilation steps, the shared object `hamming_codec{.so,.dylib}` will be available under
 your build directory's `lib/` directory.
 An example of how to link to this library can be found under the [C++ examples directory](src/cpp/examples).
 
@@ -99,10 +101,14 @@ Which shows that the 21-bit encoded message `0x2a3a1` is decoded back into the 1
 Once you have [installed hamming-codec](#python-installation), you can `import` it and perform encoding/decoding as follows:
 ```python
 >>> import hamming_codec
->>> encoded_message = hamming_codec.encode(0x4235, 16)
+>>> encoded_message = hamming_codec.encode(0x4235, 16) # returns a binary string representation
+>>> print(encoded_message)
+010001010001110101100
 >>> hex(int(encoded_message,2))
 '0x8a3ac'
->>> decoded_message = hamming_codec.decode(encoded_message, 21)
+>>> decoded_message = hamming_codec.decode(int(encoded_message,2), len(encoded_message)) # returns a binary string representation
+>>> print(decoded_message)
+0100001000110101
 >>> hex(int(decoded_message,2))
 '0x4235'
 ```
@@ -127,10 +133,9 @@ usual manner, you can include the `hamming_codec` library into your own `C++` co
 ...
 uint32_t n_bits = 16;
 uint32_t input_message = 0x4235;
-std::string input_binary_string = hamming_codec::int2bin(input_message, n_bits);
-std::string encoded_message = hamming_codec::encode(input_binary_string, n_bits);
+std::string encoded_message = hamming_codec::encode(input_message, n_bits);
 std::cout << "Encoded message: 0x" << std::hex << std::stoul(encoded_message, 0, 2) << std::endl; // prints "Encoded message: 0x8a3ac"
-std::string decoded_message = hamming_codec::decode(encoded_message, encoded_message.length());
+std::string decoded_message = hamming_codec::decode(std::stoul(encoded_message, 0, 2), encoded_message.length());
 std::cout << "Decoded message: 0x" << std::hex << std::stoul(decoded_message, 0, 2) << std::endl; // prints "Decoded message: 0x4235"
 ```
 
