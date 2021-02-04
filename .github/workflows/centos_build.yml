@@ -2,10 +2,7 @@ name: centos_build
 on: [push, pull_request]
 jobs:
     centos-build:
-        strategy:
-            matrix:
-                os: [ubuntu-20.04]
-        runs-on: ${{ matrix.os }}
+        runs-on: ubuntu-latest
         container: dantrim/centos:centos7
         steps:
             - uses: actions/checkout@v2
