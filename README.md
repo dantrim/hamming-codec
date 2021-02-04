@@ -6,6 +6,7 @@ Simple encode/decode utilties for single-bit error correcting Hamming codes
 ![centos7_build](https://github.com/dantrim/hamming-codec/workflows/centos7_build/badge.svg)
 [![pre-commit.ci status][pre-commit.ci status badge]][pre-commit.ci status]
 [![Code style: black][black badge]](https://github.com/psf/black)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Table of Contents
  1. [Requirements](#requirements)
