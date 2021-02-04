@@ -62,7 +62,7 @@ class InstallChecker(install):
 
 setup(
     name="hamming_codec",
-    version="0.2.1",
+    version="0.2.2",
     description="Simple encode/decode utilities for bit-error correcting Hamming codes",
     long_description=README,
     long_description_content_type="text/markdown",
