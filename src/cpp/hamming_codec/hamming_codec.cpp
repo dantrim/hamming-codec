@@ -5,6 +5,7 @@
 #include <sstream>
 #include <math.h>
 #include <algorithm> // std::copy_if
+#include <numeric>
 
 namespace hu = hamming_codec::utils;
 
@@ -57,10 +58,12 @@ std::vector<uint32_t> compute_parity_bits(std::string binary_string, std::vector
 
         // perform a reduction over the data bits, operating with the XOR (^)
         // over all elements
-        unsigned xor_result = 0;
-        for(size_t i = 0; i < data_sel.size() - 1; i++) {
-            xor_result = data_sel.at(i) ^ data_sel.at(i+1);
-        }
+        auto fxor = [&](int x, int y) { return x ^ y; };
+        auto xor_result = std::reduce(data_sel.begin(), data_sel.end(), 0, fxor);
+        //unsigned xor_result = 0;
+        //for(size_t i = 0; i < data_sel.size() - 1; i++) {
+        //    xor_result = data_sel.at(i) ^ data_sel.at(i+1);
+        //}
         if (xor_result == 1) {
             parity_bits[i] = 1;
         }
