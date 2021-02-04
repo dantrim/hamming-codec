@@ -77,7 +77,7 @@ setup(
     ],
     package_dir={"": "src/python"},
     packages=["hamming_codec", "cli"],
-    install_requires=["click"],
+    install_requires=["click", "setuptools>=42"],
     cmake_args=["-DBUILD_PYTHON=on"],
     cmake_install_dir="src/python/hamming_codec",
     entry_points={"console_scripts": ["hamming=cli:cli.hamming"]},
