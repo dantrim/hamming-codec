@@ -33,7 +33,7 @@ Install using `pip` as follows, after which the command-line utility `hamming` w
 This should ideally be done in a Python virtual environment:
 
 ```bash
-$ pip install hamming-codec
+$ python -m pip install hamming-codec
 $ hamming -h
 Usage: hamming [OPTIONS] COMMAND [ARGS]...
 
