@@ -82,4 +82,5 @@ setup(
     cmake_install_dir="src/python/hamming_codec",
     entry_points={"console_scripts": ["hamming=cli:cli.hamming"]},
     cmdclass={"install": InstallChecker, "sdist": SdistChecker},
+    include_package_data = True,
 )
