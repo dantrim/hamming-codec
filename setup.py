@@ -1,6 +1,11 @@
 import sys
 import pathlib
 
+import os
+import subprocess
+from setuptools.command.sdist import sdist
+from setuptools.command.install import install
+
 # the directory containing this file
 HERE = pathlib.Path(__file__).parent
 
@@ -16,6 +21,39 @@ except ImportError:
         file=sys.stderr,
     )
     raise
+
+def check_submodules():
+    """ verify that the submodules are checked out and clean
+        use `git submodule update --init`; on failure
+    """
+    if not os.path.exists('.git'):
+        return
+    with open('.gitmodules') as f:
+        for line in f:
+            if 'path' in line:
+                p = line.split('=')[-1].strip()
+                if not os.path.exists(p):
+                    raise ValueError('Submodule {} missing'.format(p))
+
+    proc = subprocess.Popen(['git', 'submodule', 'status'],
+                            stdout=subprocess.PIPE)
+    status, _ = proc.communicate()
+    status = status.decode("ascii", "replace")
+    for line in status.splitlines():
+        if line.startswith('-') or line.startswith('+'):
+            raise ValueError('Submodule not clean: {}'.format(line))
+
+class SdistChecker(sdist):
+    """ check submodules on sdist to prevent incomplete tarballs """
+    def run(self):
+        check_submodules()
+        sdist.run(self)
+
+class InstallChecker(install):
+    """ check submodules on install to prevent failed installs """
+    def run(self):
+        check_submodules()
+        install.run(self)
 
 setup(
     name="hamming_codec",
@@ -38,4 +76,5 @@ setup(
     cmake_args=["-DBUILD_PYTHON=on"],
     cmake_install_dir="src/python/hamming_codec",
     entry_points={"console_scripts": ["hamming=cli:cli.hamming"]},
+    cmdclass = {'install': InstallChecker, 'sdist': SdistChecker},
 )
