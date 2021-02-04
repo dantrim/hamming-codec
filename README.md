@@ -33,9 +33,7 @@ Install using `pip` as follows, after which the command-line utility `hamming` w
 This should ideally be done in a Python virtual environment:
 
 ```bash
-$ git clone --recursive https://github.com/dantrim/hamming-codec.git
-$ cd hamming-codec
-$ pip install .
+$ pip install hamming-codec
 $ hamming -h
 Usage: hamming [OPTIONS] COMMAND [ARGS]...
 
@@ -55,7 +53,8 @@ Commands:
 The `hamming-codec` encoding and decoding algorithm is implemented in C++, offering a Python interface
 via [pybind11](https://pybind11.readthedocs.io/en/stable/).
 If you wish to use the `hamming-codec` encoding/decoding from within a C++ library, one can
-build `hamming-codec` following the usual CMake process:
+build `hamming-codec` by checking out the source repository for `hamming-codec` and
+following the usual CMake build process:
 ```bash
 $ git clone --recursive https://github.com/dantrim/hamming-codec.git
 $ cd hamming-codec
@@ -68,7 +67,7 @@ At which point the shared object `hamming_codec.so` (`hamming_codec.dylib`) will
 your build directory's `lib/` directory.
 An example of how to link to this library can be found under the [C++ examples directory](src/cpp/examples).
 
-## Python Usage
+## Usage
 
 ### From the Command-line
 
