@@ -17,6 +17,9 @@ jobs:
                 cmake3 --version
             - name: Build C++ library
               run: |
+                  source /opt/rh/devtoolset-7/enable
+                  gcc --version
+                  cmake3 --version
                   mkdir build/
                   pushd build/
                   cmake3 ..
