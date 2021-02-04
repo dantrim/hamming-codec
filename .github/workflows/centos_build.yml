@@ -4,7 +4,7 @@ jobs:
     centos-build:
         strategy:
             matrix:
-                os: ubuntu-20.04
+                os: [ubuntu-20.04]
         runs-on: ${{ matrix.os }}
         container: dantrim/centos:centos7
         steps:
