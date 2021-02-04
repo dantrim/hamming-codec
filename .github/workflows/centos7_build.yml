@@ -1,4 +1,4 @@
-name: centos_build
+name: centos7_build
 on: [push, pull_request]
 jobs:
     centos-build:
