@@ -150,7 +150,7 @@ $ hamming encode 0x1234 16
 $ hamming decode 0x2a3a1 21
 0x1234 16
 $ hamming decode 0x2a1a1 21 # flipped a bit
-0x1234 16
+0x1234 16 # ...but decodes the same as before!
 ```
 
 ## References
