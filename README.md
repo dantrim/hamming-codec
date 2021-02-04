@@ -110,7 +110,7 @@ Once you have [installed hamming-codec](#python-installation), you can `import` 
 ## C++ Usage
 
 ### C++ Examples
-After following the [steps to build the C++ library](#cpp-installation), you 
+After following the [steps to build the C++ library](#c-installation), you 
 can run the C++ examples. For example,
 ```bash
 $ ./build/bin/example_encode 0x4235 16
@@ -119,7 +119,7 @@ $ ./build/bin/example_encode 0x4235 16
 
 ### Linking to the Shared Library
 
-A shared library `hamming_codec_cpp.{so,dylib}` also gets built after following [the steps to build the C++ library](#cpp-installation),
+A shared library `hamming_codec_cpp.{so,dylib}` also gets built after following [the steps to build the C++ library](#c-installation),
 located under your build directory's `lib/` directory. By linking against this shared library in the
 usual manner, you can include the `hamming_codec` library into your own `C++` code as follows:
 ```c++
