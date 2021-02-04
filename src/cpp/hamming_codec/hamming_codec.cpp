@@ -1,13 +1,10 @@
 #include "hamming_codec.h"
 #include "utils.h"
 
-//#include <pybind11/embed.h>
-//namespace py = pybind11;
 #include <iostream>
 #include <sstream>
 #include <math.h>
-#include <algorithm> // std::copy_if, std::reverse
-#include <numeric> // std::reduce, std::iota
+#include <algorithm> // std::copy_if
 
 namespace hu = hamming_codec::utils;
 
@@ -49,8 +46,6 @@ std::vector<uint32_t> compute_parity_bits(std::string binary_string, std::vector
         r_pos.resize(std::distance(r_pos.begin(), it));
 
         std::vector<unsigned> data_sel;
-        //std::vector<char> binary_string_arr(binary_string.length());
-        //std::copy(binary_string.begin(), binary_string.end(), std::back_inserter(binary_string_arr));
         auto binary_string_array = hu::split(binary_string);
         for(auto d : r_pos) {
             if(binary_string_array[d-1] == '1') {
@@ -60,8 +55,12 @@ std::vector<uint32_t> compute_parity_bits(std::string binary_string, std::vector
             }
         } // d
 
-        auto fxor = [&](int x, int y) { return x ^ y; };
-        auto xor_result = std::reduce(data_sel.begin(), data_sel.end(), 0, fxor);
+        // perform a reduction over the data bits, operating with the XOR (^)
+        // over all elements
+        unsigned xor_result = 0;
+        for(size_t i = 0; i < data_sel.size() - 1; i++) {
+            xor_result = data_sel.at(i) ^ data_sel.at(i+1);
+        }
         if (xor_result == 1) {
             parity_bits[i] = 1;
         }
