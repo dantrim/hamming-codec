@@ -3,7 +3,6 @@ Simple encode/decode utilties for single-bit error correcting Hamming codes
 
 [![GitHub Actions Status Badge: CI/CD]][GitHub Actions Status: CI/CD]
 [![GitHub Actions Status Badge: cpp_build]][GitHub Actions Status: cpp_build]
-[![GitHub Actions Status Badge: centos7_build]][GitHub Actions Status: centos7_build]
 ![centos7_build](https://github.com/dantrim/hamming-codec/workflows/centos7_build/badge.svg)
 [![pre-commit.ci status][pre-commit.ci status badge]][pre-commit.ci status]
 [![Code style: black][black badge]](https://github.com/psf/black)
