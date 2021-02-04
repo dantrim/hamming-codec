@@ -51,7 +51,7 @@ Commands:
             being...
 ```
 
-## Cpp Installation
+## C++ Installation
 The `hamming-codec` encoding and decoding algorithm is implemented in C++, offering a Python interface
 via [pybind11](https://pybind11.readthedocs.io/en/stable/).
 If you wish to use the `hamming-codec` encoding/decoding from within a C++ library, one can
@@ -107,9 +107,9 @@ Once you have [installed hamming-codec](#python-installation), you can `import` 
 '0x4235'
 ```
 
-## Cpp Usage
+## C++ Usage
 
-### Cpp Examples
+### C++ Examples
 After following the [steps to build the C++ library](#cpp-installation), you 
 can run the C++ examples. For example,
 ```bash
