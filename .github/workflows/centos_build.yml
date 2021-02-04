@@ -1,0 +1,26 @@
+name: centos_build
+on: [push, pull_request]
+jobs:
+    centos-build:
+        container: dantrim/centos:centos7
+        strategy:
+            os: [ubuntu-20.04]
+        runs-on: ${{ matrix.os }}
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  submodules: 'recursive'
+            - name: Setup GCC
+              run: |
+                gcc --version
+                cmake3 --version
+                source /opt/rh/devtoolset-7/enable
+                gcc --version
+                cmake3 --version
+            - name: Build C++ library
+              run: |
+                  mkdir build/
+                  pushd build/
+                  cmake3 ..
+                  make
+                  popd
