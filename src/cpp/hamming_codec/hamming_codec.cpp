@@ -60,12 +60,6 @@ std::vector<uint32_t> compute_parity_bits(std::string binary_string, std::vector
         // over all elements
         auto fxor = [&](int x, int y) { return x ^ y; };
         auto xor_result = std::accumulate(data_sel.begin(), data_sel.end(), 0, fxor);
-        //unsigned xor_result = 0;
-        //for(const auto d : data_sel) {
-        //    xor_result = xor_result ^ d;
-        //}
-        //if(xor_result != xor_result_f)
-        //    throw std::runtime_error("whoops! accumulate = " + std::to_string(xor_result_f) + ", mine = " + std::to_string(xor_result));
         if (xor_result == 1) {
             parity_bits[i] = 1;
         }
