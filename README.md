@@ -23,7 +23,7 @@ Simple encode/decode utilties for single-bit error correcting Hamming codes
 
 # Requirements
 
-Tested on Python `>=3.6`.
+Tested on Python `>=3.6` and requires C++ compilers supporting C++17 features.
 
 # Installation
 
