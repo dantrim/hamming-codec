@@ -58,11 +58,124 @@ PYBIND11_MODULE(_hamming_codec, m) {
             )pbdoc",
             py::arg("n_parity_bits")
             );
-    m.def("compute_parity_bits", &hamming_codec::compute_parity_bits);
-    m.def("n_parity_bits_required", &hamming_codec::n_parity_bits_required);
-    m.def("int2bin", &hamming_codec::utils::int2bin);
-    m.def("encode", &hamming_codec::encode, "Encode an input value");
-    m.def("decode", &hamming_codec::decode, "Decode an input value");
+    m.def("compute_parity_bits", &hamming_codec::compute_parity_bits,
+            R"pbdoc(
+            Computes the values for the redundant/parity bits based on the input
+            binary string which has the positiosn of the redundant/parity
+            bit positions specified.
+
+            The returned list of parity bits will always be of the same length
+            as the input binary string.
+
+            In the encoding stage the returned array of parity bits will contain
+            the values that the redundant/parity bits should take in the encoded
+            message. In the decoding stage, the returned array of parity bits will
+            be non-zero if single-bit error is detected and the returned array,
+            interpreted as a binary string, will indicate the bit position
+            at which the bit flip has occurred.
+
+            Parameters
+            ----------
+            binary_string: str
+                Binary string whose length (in number of bits) is equal to the length of the
+                encoded message (number of redundant/parity bits + number of bits in the
+                message to encode).
+
+            positions: list[int]
+                List containing the indices (positions) of the redundant/parity bits
+                in the input binary string.
+
+            inclusive: bool
+                Whether or not to include redundant/parity bits in the computation of parity
+                (False when encoding, True when decoding and using error-correction).
+
+            Returns
+            -------
+            list[int]
+                An array with the parity bit values. In the encoding stage, it provides
+                the values that the redundant bits should take and in the decoding
+                stage, if non-zero, it indicates the position of a single-bit error.
+            )pbdoc",
+            py::arg("binary_string"), py::arg("positions"), py::arg("inclusive")
+            );
+
+    m.def("n_parity_bits_required", &hamming_codec::n_parity_bits_required,
+            R"pbdoc(
+            Computes the number of redundant/parity bits required to encode
+            a message of specified length (in number of bits).
+
+            Parameters
+            ----------
+            n_bits: int
+                The number of bits in the input message (prior to encoding).
+
+            Returns
+            -------
+            int
+                The number of redundant/parity bits required.
+            )pbdoc",
+            py::arg("n_bits")
+    );
+    m.def("int2bin", &hamming_codec::utils::int2bin,
+            R"pbdoc(
+            Convert an integer into its binary representation.
+
+            Parameters
+            ----------
+            data: int
+                The integer number to represent in binary.
+            n_bits: int
+                The size in number of bits to interpret the input data as.
+
+            Returns
+            -------
+            str
+                The binary string representation of the input data.
+            )pbdoc",
+            py::arg("data"), py::arg("n_bits")
+    );
+    m.def("encode", &hamming_codec::encode,
+            R"pbdoc(
+            Hamming encode a data message.
+
+            Performs a single-bit error correcting Hamming encoding
+            of the input data of specified length (in number of bits).
+
+            Parameters
+            ----------
+            data: int
+                The data word to encode.
+            n_bits: int
+                The size of the input data in number of bits.
+
+            Returns
+            -------
+            str
+                The binary string representation of the Hamming encoded data.
+            )pbdoc",
+            py::arg("data"), py::arg("n_bits")
+    );
+    m.def("decode", &hamming_codec::decode,
+            R"pbdoc(
+            Decode a Hamming encoded data word.
+
+            Decodes the Hamming encoded input message. This method will
+            automatically correct any detected single-bit error.
+
+            Parameters
+            ----------
+            data: int
+                The data word to decode.
+            n_bits: int
+                The size of the input data in number of bits.
+
+            Returns
+            -------
+            str
+                The binary string representation of the decoded message.
+            )pbdoc",
+            py::arg("data"), py::arg("n_bits")
+    );
 
 #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
