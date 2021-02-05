@@ -6,11 +6,16 @@ import subprocess
 from setuptools.command.sdist import sdist
 from setuptools.command.install import install
 
+from pybind11.setup_helpers import Pybind11Extension, build_ext
+
 # the directory containing this file
 HERE = pathlib.Path(__file__).parent
 
 # the text of the README file
 README = (HERE / "README.md").read_text()
+
+__version__ = "0.2.3"
+
 
 try:
     from skbuild import setup
@@ -59,10 +64,20 @@ class InstallChecker(install):
         check_submodules()
         install.run(self)
 
+#ext_modules = [
+#    Extension("_hamming_codec",
+#        ["src/python/module.cpp"],
+#        # passing in the version to the compiled code
+#        define_macros = [('VERSION_INFO', __version__)],
+#        ),
+#]
+
+cmake_compiler_defines = f"-DBUILD_PYTHON=on -DVERSION_INFO={__version__}"
+print(f"cmake compiler defines = {cmake_compiler_defines}")
 
 setup(
     name="hamming_codec",
-    version="0.2.3",
+    version=__version__,
     description="Simple encode/decode utilities for bit-error correcting Hamming codes",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -77,10 +92,11 @@ setup(
     ],
     package_dir={"": "src/python"},
     packages=["hamming_codec", "cli"],
-    install_requires=["click", "setuptools>=42"],
-    cmake_args=["-DBUILD_PYTHON=on"],
+    install_requires=["click"],
+    cmake_args=[f'-DBUILD_PYTHON=on'],
     cmake_install_dir="src/python/hamming_codec",
     entry_points={"console_scripts": ["hamming=cli:cli.hamming"]},
     cmdclass={"install": InstallChecker, "sdist": SdistChecker},
     include_package_data=True,
+    #ext_modules=ext_modules,
 )
