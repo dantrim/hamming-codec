@@ -7,4 +7,4 @@ from ._hamming_codec import (  # noqa: F401
     n_parity_bits_required,
     int2bin,
 )
-from ._hamming_codec import __version__
+from ._hamming_codec import __version__  # noqa: F401

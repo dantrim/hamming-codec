@@ -6,15 +6,13 @@ import subprocess
 from setuptools.command.sdist import sdist
 from setuptools.command.install import install
 
-from pybind11.setup_helpers import Pybind11Extension, build_ext
-
 # the directory containing this file
 HERE = pathlib.Path(__file__).parent
 
 # the text of the README file
 README = (HERE / "README.md").read_text()
 
-__version__ = "0.2.3"
+__version__ = "0.2.4"
 
 
 try:
@@ -64,13 +62,6 @@ class InstallChecker(install):
         check_submodules()
         install.run(self)
 
-#ext_modules = [
-#    Extension("_hamming_codec",
-#        ["src/python/module.cpp"],
-#        # passing in the version to the compiled code
-#        define_macros = [('VERSION_INFO', __version__)],
-#        ),
-#]
 
 cmake_compiler_defines = f"-DBUILD_PYTHON=on -DVERSION_INFO={__version__}"
 print(f"cmake compiler defines = {cmake_compiler_defines}")
@@ -93,10 +84,9 @@ setup(
     package_dir={"": "src/python"},
     packages=["hamming_codec", "cli"],
     install_requires=["click"],
-    cmake_args=[f'-DBUILD_PYTHON=on'],
+    cmake_args=["-DBUILD_PYTHON=on"],
     cmake_install_dir="src/python/hamming_codec",
     entry_points={"console_scripts": ["hamming=cli:cli.hamming"]},
     cmdclass={"install": InstallChecker, "sdist": SdistChecker},
     include_package_data=True,
-    #ext_modules=ext_modules,
 )
