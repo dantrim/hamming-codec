@@ -22,6 +22,10 @@ else()
     message(WARNING "Untested compiler \"${CMAKE_CXX_COMPILER_ID}\", proceed with caution!")
 endif()
 
+set(HAMMING_CODEC_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/hamming_codec/)
+
 option(BUILD_PYTHON "Build the python bindings" OFF)
 add_subdirectory(exts/pybind11 EXCLUDE_FROM_ALL)
+
 add_subdirectory(src)
+message(STATUS "Found hamming-codec: HAMMING_CODEC_INCLUDE_DIRS = ${HAMMING_CODEC_INCLUDE_DIRS}")

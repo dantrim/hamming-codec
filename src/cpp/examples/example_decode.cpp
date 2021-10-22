@@ -4,7 +4,6 @@
 
 // hamming codec wrapper
 #include "hamming_codec.h"
-#include "utils.h"
 
 void usage(char* argv[]) {
     std::cerr << "Usage: " << argv[0] << " [OPTIONS] INPUT N_BITS" << std::endl;
