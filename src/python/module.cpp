@@ -5,7 +5,6 @@ namespace py = pybind11;
 #include <iostream>
 
 #include "hamming_codec.h"
-//#include "utils.h"
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
