@@ -5,7 +5,6 @@ namespace py = pybind11;
 #include <iostream>
 
 #include "hamming_codec.h"
-#include "utils.h"
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -13,7 +12,7 @@ namespace py = pybind11;
 PYBIND11_MODULE(_hamming_codec, m) {
     m.doc() = "Simple encode/decode utilities for single-bit error correcting Hamming codes";
 
-    m.def("n_parity_bits", &hamming_codec::n_parity_bits_required,
+    m.def("n_parity_bits", &hamming_codec::internal::n_parity_bits_required,
             R"pbdoc(
             Compute the number of parity bits required for encoding an input message of a specific length.
 
@@ -29,7 +28,7 @@ PYBIND11_MODULE(_hamming_codec, m) {
             )pbdoc",
             py::arg("n_bits")
             );
-    m.def("compute_parity_bit_positions", &hamming_codec::compute_parity_bit_positions,
+    m.def("compute_parity_bit_positions", &hamming_codec::internal::compute_parity_bit_positions,
             R"pbdoc(
             Computes the bit positions (indices) of the redundant/parity bits in an encoded
             message that contains the specified number of redundant/parity bits.
@@ -58,7 +57,7 @@ PYBIND11_MODULE(_hamming_codec, m) {
             )pbdoc",
             py::arg("n_parity_bits")
             );
-    m.def("compute_parity_bits", &hamming_codec::compute_parity_bits,
+    m.def("compute_parity_bits", &hamming_codec::internal::compute_parity_bits,
             R"pbdoc(
             Computes the values for the redundant/parity bits based on the input
             binary string which has the positiosn of the redundant/parity
@@ -99,7 +98,7 @@ PYBIND11_MODULE(_hamming_codec, m) {
             py::arg("binary_string"), py::arg("positions"), py::arg("inclusive")
             );
 
-    m.def("n_parity_bits_required", &hamming_codec::n_parity_bits_required,
+    m.def("n_parity_bits_required", &hamming_codec::internal::n_parity_bits_required,
             R"pbdoc(
             Computes the number of redundant/parity bits required to encode
             a message of specified length (in number of bits).
