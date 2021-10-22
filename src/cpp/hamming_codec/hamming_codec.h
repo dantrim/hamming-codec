@@ -3,6 +3,7 @@
 #include <sstream>
 #include <algorithm>
 #include <numeric> // accumulate
+#include <math.h>
 
 namespace hamming_codec {
 
