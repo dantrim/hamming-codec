@@ -25,7 +25,9 @@ endif()
 set(HAMMING_CODEC_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/)
 
 option(BUILD_PYTHON "Build the python bindings" OFF)
-add_subdirectory(exts/pybind11 EXCLUDE_FROM_ALL)
+if(BUILD_PYTHON)
+    add_subdirectory(exts/pybind11 EXCLUDE_FROM_ALL)
+endif()
 
 add_subdirectory(src)
 message(STATUS "Found hamming-codec: HAMMING_CODEC_INCLUDE_DIRS = ${HAMMING_CODEC_INCLUDE_DIRS}")
