@@ -7,15 +7,16 @@
 #include "hamming_codec.h"
 
 void usage(char* argv[]) {
-    std::cerr << "Usage: " << argv[0] << " [OPTIONS] INPUT N_BITS [PARITY_LOC]" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " [OPTIONS] INPUT N_BITS [PARITY_LOC] [N_PARITY_BITS]" << std::endl;
     std::cerr << std::endl;
     std::cerr << "OPTIONS:" << std::endl;
     std::cerr << " -h|--help    Print this help message." << std::endl;
     std::cerr << std::endl;
     std::cerr << "POSITIONAL ARGUMENTS:" << std::endl;
-    std::cerr << " INPUT        Input data to be decoded (as hexadecimal string)" << std::endl;
-    std::cerr << " N_BITS       Size, in number of bits, of the input data" << std::endl;
-    std::cerr << " PARITY_LOC   Where the parity bits are located in the encoded message [DEFAULT|MSB|LSB]" << std::endl;
+    std::cerr << " INPUT          Input data to be decoded (as hexadecimal string)" << std::endl;
+    std::cerr << " N_BITS         Size, in number of bits, of the input data" << std::endl;
+    std::cerr << " PARITY_LOC     Where the parity bits are located in the encoded message [DEFAULT|MSB|LSB]" << std::endl;
+    std::cerr << " N_PARITY_BITS  Number of parity bits contained in encoded message (only if MSB|LSB)" << std::endl;
 }
 
 
@@ -40,20 +41,26 @@ int main(int argc, char* argv[]) {
         } // switch
     } // while
     auto n_pos = (argc - optind);
-    if(n_pos > 3) {
+    if(n_pos > 4) {
         std::cerr << "Too many positional arguments provided" << std::endl;
         return 1;
     }
-    if(!(n_pos == 2 || n_pos == 3)) {
+    if(!(n_pos == 2 || n_pos == 4)) {
         std::cerr << "Missing positional arguments!" << std::endl;
         return 1;
     }
 
     std::string input_data_string = argv[optind++];
     uint32_t n_bits = std::stoul(argv[optind++]);;
+    uint32_t n_parity_bits = 0;
     std::string parity_loc_str = "DEFAULT";
-    if(n_pos == 3) {
+    if(n_pos >= 3) {
         parity_loc_str = argv[optind++];
+        if(n_pos != 4) {
+            std::cerr << "Missing specification of PARITY_LOC|N_PARITY_BITS" << std::endl;
+            return 1;
+        }
+        n_parity_bits = std::stoul(argv[optind++]);
     }
 
     if(n_bits<4) {
@@ -73,8 +80,7 @@ int main(int argc, char* argv[]) {
     }
 
     // decode
-    std::string decoded_binary_string = hamming_codec::decode(input_data, n_bits, parity_loc_map.at(parity_loc_str));
-    std::cout << "FOO decoded_binary_string = \"" << decoded_binary_string << "\" (len = " << decoded_binary_string.length() << ")" << std::endl;
+    std::string decoded_binary_string = hamming_codec::decode(input_data, n_bits, parity_loc_map.at(parity_loc_str), n_parity_bits);
     uint64_t decoded_int = std::stoul(decoded_binary_string, 0, 2);
     if(verbose) {
         std::cout << "Input value         : 0x" << std::hex << input_data << std::dec << ", size = " << n_bits << " bits" << std::endl;

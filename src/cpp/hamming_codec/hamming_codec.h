@@ -27,7 +27,6 @@ namespace hamming_codec {
                 } else {
                     binary_string = "0" + binary_string;
                 }
-                std::cout << "FOO int2bin[" << i << "] = 0x" << std::hex << std::stoul(binary_string, 0, 2) << ")" << std::dec << std::endl;
                 mask = mask << 1;
             } // for
             return binary_string;
@@ -100,12 +99,6 @@ namespace hamming_codec {
         // compute the number of parity bits required for encoding
         // a message of size n_bits
         uint64_t n_parity_bits_required(const uint64_t& n_bits) {
-            for(uint64_t i = 0; i < n_bits; i++) {
-                if(pow(2, i) >= n_bits + i + 1) {
-                    return i;
-                }
-            }
-            throw std::runtime_error("Failed to compute number of required parity bits");
             uint64_t p = 1;
             while(true) {
                 uint64_t lhs = static_cast<uint64_t>(pow(2, p));
@@ -228,7 +221,6 @@ namespace hamming_codec {
         std::vector<std::string> parity_bit_chars{parity_bits.size()};
         std::transform(parity_bits.begin(), parity_bits.end(), parity_bit_chars.begin(), [](int x) { return std::to_string(x); });
 
-
         std::string encoded_output_string{""};
         switch(parity_loc) {
             case ParityLocation::DEFAULT : {
@@ -246,53 +238,74 @@ namespace hamming_codec {
                                        }
             case ParityLocation::LSB : {
                                            seed_string_array.erase(std::remove(seed_string_array.begin(), seed_string_array.end(), "x"), seed_string_array.end());
-
                                            for(const auto& p : parity_bit_chars) {
-                                               encoded_output_string += std::string(p);
+                                               encoded_output_string += p;
+                                               //seed_string_array.push_back(p);
                                            }
-                                           encoded_output_string = hu::reverse_string(encoded_output_string);
                                            encoded_output_string += hu::join(seed_string_array);
                                            encoded_output_string = hu::reverse_string(encoded_output_string);
                                            break;
                                        }
         } // switch
-        //hu::replace_with(seed_string_array, parity_bit_chars, "x");
 
         // reverse the now complete seed_string to make the RHS of binary the string
         // correspond to the LSB
-        //return hu::reverse_string(hu::join(seed_string_array));
         return encoded_output_string;
+    }
+
+
+    // for a given message and parity bit block string, place each of the parity bits
+    // in the provided positions
+    std::string fill_parity_bits(const std::string& message_without_parity, const std::string& parity_bit_block_str,
+                                    const std::vector<uint64_t>& parity_bit_positions) {
+        std::string message_with_parity{""};
+        if(parity_bit_block_str.length() != parity_bit_positions.size()) {
+            throw std::runtime_error("Parity bit block string (\"" + parity_bit_block_str + "\") size != parity bit positions vector (size = " + std::to_string(parity_bit_positions.size()) + ")");
+        }
+
+        std::string reversed_in = hu::reverse_string(message_without_parity);
+        std::string reversed_parity = hu::reverse_string(parity_bit_block_str);
+        unsigned message_length = message_without_parity.length() + parity_bit_positions.size();
+        size_t data_idx = 0;
+        size_t parity_idx = 0;
+        for(size_t ipos = 0; ipos < message_length; ipos++) {
+            if(std::find(parity_bit_positions.begin(), parity_bit_positions.end(), ipos) == parity_bit_positions.end()) {
+                message_with_parity += reversed_in[data_idx++];
+            } else {
+                message_with_parity += reversed_parity[parity_idx++];
+            }
+        } // ipos
+        return hu::reverse_string(message_with_parity);
     }
 
     // decode the hamming encoded message `data` which should be interpreted as
     // being `n_bits` long
-    std::string decode(const uint64_t& data, const uint32_t& n_bits, const ParityLocation& parity_loc = ParityLocation::DEFAULT) {
+    std::string decode(const uint64_t& data, const uint32_t& n_bits, const ParityLocation& parity_loc = ParityLocation::DEFAULT, uint32_t n_parity_bits = 0) {
         std::string binary_string = hu::int2bin(data, n_bits);
-        uint32_t n_parity_bits = internal::n_parity_bits_required(n_bits);
+        if(n_parity_bits == 0 && parity_loc != ParityLocation::DEFAULT) {
+            throw std::logic_error("Cannot decode message: must specify number of parity bits for non-default encoding");
+        } else
+        if(n_parity_bits > 0 && parity_loc == ParityLocation::DEFAULT) {
+            throw std::logic_error("Cannot decode message: cannot specify number of parity bits for default encoding");
+        } else
+        if(n_parity_bits == 0) {
+            n_parity_bits = internal::n_parity_bits_required(n_bits);
+        }
         std::vector<uint64_t> parity_bit_positions = internal::compute_parity_bit_positions(n_parity_bits);
                                           
-        //n_parity_bits = (n_bits % 2 == 0) ? n_parity_bits : (n_parity_bits - 1);
-        std::cout << "FOO data          = 0x" << std::hex << data << std::dec << " (n_bits = " << n_bits << ")"<<  std::endl;
-        std::cout << "FOO binary string = " << binary_string << " (length = " << binary_string.length() << ")" << std::endl;
-        std::cout << "FOO n_parity_bits = " << n_parity_bits << std::endl;
-        
-
         // put the parity bits in the "canonical" locations if the encoded data message
         // was not encoded in the "canonical" way
         switch(parity_loc) {
             case ParityLocation::MSB : {
-                                           std::string data_without_parity = binary_string.substr(0 + (n_parity_bits+1), binary_string.length());
-                                           std::cout << "FOO data_without_parity = " << data_without_parity << " (0x" << std::hex << std::stoul(data_without_parity, 0, 2) << ")" << std::endl;
-                                           uint64_t d = std::stoul(data_without_parity, 0, 2);
-                                           binary_string = encode(d, data_without_parity.length());
+                                           std::string parity_bit_block = binary_string.substr(0, n_parity_bits);
+                                           std::string data_without_parity = binary_string.substr(n_parity_bits, binary_string.length());
+                                           binary_string = fill_parity_bits(data_without_parity, parity_bit_block, parity_bit_positions);
                                            break;
                                        }
             case ParityLocation::LSB : {
-                                           std::cout << "FOO input               = " << binary_string << std::endl;
-                                           std::string data_without_parity = binary_string.substr(0, binary_string.length() - (n_parity_bits));
-                                           std::cout << "FOO data_without_parity = " << data_without_parity << " (0x" << std::hex << std::stoul(data_without_parity, 0, 2) << ")" << std::dec << " len = " << data_without_parity.length() << std::endl;
-                                           uint64_t d = std::stoul(data_without_parity, 0, 2);
-                                           binary_string = encode(d, data_without_parity.length());
+                                           std::string parity_bit_block = binary_string.substr(binary_string.length() - n_parity_bits, binary_string.length());
+                                           std::string data_without_parity = binary_string.substr(0, binary_string.length() - n_parity_bits);
+                                           binary_string = fill_parity_bits(data_without_parity, parity_bit_block, parity_bit_positions);
                                            break;
                                        }
             case ParityLocation::DEFAULT : {
