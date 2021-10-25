@@ -9,7 +9,7 @@
                                          |___/                                  
 
 hamming-codec
-version 0.1.0
+version 0.2.0
 https://github.com/dantrim/hamming-codec
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>.
@@ -42,6 +42,7 @@ SOFTWARE.
 #include <vector>
 #include <sstream>
 #include <numeric> // accumulate
+#include <algorithm> // reverse, find
 #include <math.h>
 
 namespace hamming_codec {
