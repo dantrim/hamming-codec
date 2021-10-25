@@ -15,7 +15,8 @@ def cli():
 @click.pass_context
 @click.argument("input", type=str)
 @click.argument("n-bits", type=int)
-def encode(ctx, input, n_bits):
+@click.argument("parity-location", type=str, default="DEFAULT")
+def encode(ctx, input, n_bits, parity_location):
     """
     Encode the provided input data word, which is interpreted
     as being word of the specified number of bits.
@@ -27,8 +28,17 @@ def encode(ctx, input, n_bits):
         raise ValueError("Cannot encode values that are less than 4 bits in length!")
     # convert to binary string of `n_bits` bits
     input_data_binary_string = f"{bin(input_data)[2:]:0>{n_bits}}"
+    parity_location_map = {
+        "DEFAULT": hamming_codec.ParityLocation.DEFAULT,
+        "MSB": hamming_codec.ParityLocation.MSB,
+        "LSB": hamming_codec.ParityLocation.LSB,
+    }
+    if parity_location not in parity_location_map:
+        raise ValueError(f'Invalid parity location provided: "{parity_location}"')
+    parity_location = parity_location_map[parity_location]
+
     # encode
-    encoded_binary_string = hamming_codec.encode(input_data, n_bits)
+    encoded_binary_string = hamming_codec.encode(input_data, n_bits, parity_location)
     encoded_int = int(encoded_binary_string, 2)
     if ctx.obj["VERBOSE"]:
         print(f"Input value         : 0x{input}, size = {n_bits} bits")
@@ -45,7 +55,9 @@ def encode(ctx, input, n_bits):
 @click.pass_context
 @click.argument("input", type=str)
 @click.argument("n-bits", type=int)
-def decode(ctx, input, n_bits):
+@click.argument("parity-location", type=str, default="DEFAULT")
+@click.argument("n-parity-bits", type=int, default=0)
+def decode(ctx, input, n_bits, parity_location, n_parity_bits):
     """
     Decode the input message that is the specified number of bits in
     length.
@@ -58,8 +70,20 @@ def decode(ctx, input, n_bits):
 
     # convert to binary string of `n_bits_input` bits
     input_data_binary_string = f"{bin(input_data)[2:]:0>{n_bits_input}}"
+
+    parity_location_map = {
+        "DEFAULT": hamming_codec.ParityLocation.DEFAULT,
+        "MSB": hamming_codec.ParityLocation.MSB,
+        "LSB": hamming_codec.ParityLocation.LSB,
+    }
+    if parity_location not in parity_location_map:
+        raise ValueError(f'Invalid parity location provided: "{parity_location}"')
+    parity_location = parity_location_map[parity_location]
+
     # decode
-    decoded_binary_string = hamming_codec.decode(input_data, n_bits_input)
+    decoded_binary_string = hamming_codec.decode(
+        input_data, n_bits_input, parity_location, n_parity_bits
+    )
     decoded_int = int(decoded_binary_string, 2)
     if ctx.obj["VERBOSE"]:
         print(f"Input value         : 0x{input}, size = {n_bits_input} bits")

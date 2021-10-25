@@ -133,6 +133,12 @@ PYBIND11_MODULE(_hamming_codec, m) {
             )pbdoc",
             py::arg("data"), py::arg("n_bits")
     );
+
+    py::enum_<hamming_codec::ParityLocation>(m, "ParityLocation")
+        .value("DEFAULT", hamming_codec::ParityLocation::DEFAULT)
+        .value("MSB", hamming_codec::ParityLocation::MSB)
+        .value("LSB", hamming_codec::ParityLocation::LSB);
+
     m.def("encode", &hamming_codec::encode,
             R"pbdoc(
             Hamming encode a data message.
@@ -146,14 +152,17 @@ PYBIND11_MODULE(_hamming_codec, m) {
                 The data word to encode.
             n_bits: int
                 The size of the input data in number of bits.
+            parity_location: ParityLocation
+                Where to place the parity bits
 
             Returns
             -------
             str
                 The binary string representation of the Hamming encoded data.
             )pbdoc",
-            py::arg("data"), py::arg("n_bits")
+            py::arg("data"), py::arg("n_bits"), py::arg("parity_location") = hamming_codec::ParityLocation::DEFAULT
     );
+
     m.def("decode", &hamming_codec::decode,
             R"pbdoc(
             Decode a Hamming encoded data word.
@@ -167,13 +176,17 @@ PYBIND11_MODULE(_hamming_codec, m) {
                 The data word to decode.
             n_bits: int
                 The size of the input data in number of bits.
+            parity_location: ParityLocation
+                Where to look for the parity bits
+            n_parity_bits: int
+                Number of parity bits to look for if parity bits are in LSB or MSB location
 
             Returns
             -------
             str
                 The binary string representation of the decoded message.
             )pbdoc",
-            py::arg("data"), py::arg("n_bits")
+            py::arg("data"), py::arg("n_bits"), py::arg("parity_location") = hamming_codec::ParityLocation::DEFAULT, py::arg("n_parity_bits") = 0
     );
 
 #ifdef VERSION_INFO
