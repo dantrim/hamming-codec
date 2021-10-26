@@ -7,18 +7,25 @@ import sys
 
 import hamming_codec
 
-class ParityLocationChoices(str, Enum) :
-    default = "DEFAULT",
-    msb = "MSB",
+
+class ParityLocationChoices(str, Enum):
+    default = ("DEFAULT",)
+    msb = ("MSB",)
     lsb = "LSB"
 
+
 def encode(
-        ctx: typer.Context,
-        input: str = typer.Argument(..., help = "Input data word as hex string"),
-        n_bits: int = typer.Argument(..., help = "Length of the input data word in number of bits"),
-        parity_location: ParityLocationChoices = typer.Argument("DEFAULT", case_sensitive = False,
-                            help = "Speciy how the parity bits are placed in the encoded message")
-    ):
+    ctx: typer.Context,
+    input: str = typer.Argument(..., help="Input data word as hex string"),
+    n_bits: int = typer.Argument(
+        ..., help="Length of the input data word in number of bits"
+    ),
+    parity_location: ParityLocationChoices = typer.Argument(
+        "DEFAULT",
+        case_sensitive=False,
+        help="Speciy how the parity bits are placed in the encoded message",
+    ),
+):
     """
     Encode the provided input data word, which is interpreted
     as being word of the specified number of bits.
@@ -58,14 +65,23 @@ def encode(
     else:
         print(f"{hex(encoded_int)} {len(encoded_binary_string)}", file=sys.stdout)
 
+
 def decode(
-        ctx: typer.Context,
-        input: str = typer.Argument(..., help = "Input message to decode as a hex string"),
-        n_bits: int = typer.Argument(..., help = "Length of the input message word in number of bits"),
-        parity_location: ParityLocationChoices = typer.Argument("DEFAULT", case_sensitive = False,
-                            help = "Specify how the parity bits are placed in the encoded message"),
-        n_parity_bits: int = typer.Argument(0, help = "Number of parity bits in the message (required for non-default parity location choice)")
-    ):
+    ctx: typer.Context,
+    input: str = typer.Argument(..., help="Input message to decode as a hex string"),
+    n_bits: int = typer.Argument(
+        ..., help="Length of the input message word in number of bits"
+    ),
+    parity_location: ParityLocationChoices = typer.Argument(
+        "DEFAULT",
+        case_sensitive=False,
+        help="Specify how the parity bits are placed in the encoded message",
+    ),
+    n_parity_bits: int = typer.Argument(
+        0,
+        help="Number of parity bits in the message (required for non-default parity location choice)",
+    ),
+):
     """
     Decode the input message that is the specified number of bits in
     length.
@@ -94,8 +110,10 @@ def decode(
         raise ValueError(f'Invalid parity location provided: "{parity_location}"')
     parity_location = parity_location_map[parity_location]
 
-    if n_parity_bits == 0 and parity_location != hamming_codec.ParityLocation.DEFAULT :
-        raise ValueError("For non-default parity bit locations, the number of parity bits  must be specified")
+    if n_parity_bits == 0 and parity_location != hamming_codec.ParityLocation.DEFAULT:
+        raise ValueError(
+            "For non-default parity bit locations, the number of parity bits  must be specified"
+        )
 
     # decode
     decoded_binary_string = hamming_codec.decode(
@@ -103,7 +121,9 @@ def decode(
     )
     decoded_int = int(decoded_binary_string, 2)
     if ctx.obj["VERBOSE"]:
-        print(f"Input value         : 0x{input.replace('0x','')}, size = {n_bits_input} bits")
+        print(
+            f"Input value         : 0x{input.replace('0x','')}, size = {n_bits_input} bits"
+        )
         print(f"Input value (bin)   : 0b{input_data_binary_string}")
         print(f"Decoded value       : {hex(decoded_int)}")
         print(
