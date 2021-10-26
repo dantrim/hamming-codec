@@ -35,7 +35,7 @@ This should ideally be done in a Python virtual environment:
 
 ```bash
 $ python -m pip install hamming-codec
-$ hamming -h
+$ hamming --help
 Usage: hamming [OPTIONS] COMMAND [ARGS]...
 
 Top-level entrypoint into hamming-codec utilities.
@@ -51,24 +51,22 @@ Commands:
 ```
 
 ## C++ Installation
-The `hamming-codec` encoding and decoding algorithm is implemented in C++, offering a Python interface
-via [pybind11](https://pybind11.readthedocs.io/en/stable/).
-If you wish to use the `hamming-codec` encoding/decoding from within a C++ library, one can
-build `hamming-codec` by checking out the source repository for `hamming-codec` and
-following the usual CMake build process:
-```bash
-$ git clone --recursive https://github.com/dantrim/hamming-codec.git
-$ cd hamming-codec
-$ mkdir build
-$ cd build
-$ cmake ..
-$ make
-```
-The `--recursive` flag is required in order to pull the external dependencies (i.e. [pybind11](https://pybind11.readthedocs.io/en/stable/)).
 
-After the above compilation steps, the shared object `hamming_codec{.so,.dylib}` will be available under
-your build directory's `lib/` directory.
-An example of how to link to this library can be found under the [C++ examples directory](src/cpp/examples).
+If you wish to use the `hamming-codec` encoding/decoding from within C++,
+one needs to include the single header file
+[src/cpp/hamming_codec.h](src/cpp/hamming_codec.h) in their project.
+There are a few ways to do this:
+
+  1. Copy the file [src/cpp/hamming_codec.h](src/cpp/hamming_codec.h) into your project's include path
+  2. Add `hamming-codec` as a sub-module (or equivalent) and use CMake to expose the `HAMMING_CODEC_INCLUDE_DIRS`
+        variable. See [src/cpp/examples/CMakeLists.txt](src/cpp/examples/CMakeLists.txt) for an example.
+
+Following either approach, you should be able to
+
+```c++
+#include "hamming_codec.h"
+```
+in your source code.
 
 ## Usage
 
