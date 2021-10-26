@@ -7,14 +7,15 @@ from . import codec_cli
 
 app = typer.Typer()
 
+
 @app.callback()
 def hamming(
-        ctx: typer.Context,
-        verbose: bool = typer.Option(False, "-v", "--verbose", help = "Verbose output")
-    ):
+    ctx: typer.Context,
+    verbose: bool = typer.Option(False, "-v", "--verbose", help="Verbose output"),
+):
     """Top-level entrypoint into hamming-codec commandline utilities"""
 
-    if ctx.invoked_subcommand is None :
+    if ctx.invoked_subcommand is None:
         print(f"No subcommand specified")
         sys.exit(1)
 
@@ -23,6 +24,7 @@ def hamming(
 
     # pass the verbose flag to the sub-commands
     ctx.obj["VERBOSE"] = verbose
+
 
 app.command()(codec_cli.encode)
 app.command()(codec_cli.decode)
