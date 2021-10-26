@@ -1,28 +1,43 @@
 """hamming CLI"""
 
-import click
+import typer
+
+from enum import Enum
 import sys
 
 import hamming_codec
 
 
-@click.group(name="codec")
-def cli():
-    """The codec CLI group."""
+class ParityLocationChoices(str, Enum):
+    default = ("DEFAULT",)
+    msb = ("MSB",)
+    lsb = "LSB"
 
 
-@cli.command()
-@click.pass_context
-@click.argument("input", type=str)
-@click.argument("n-bits", type=int)
-@click.argument("parity-location", type=str, default="DEFAULT")
-def encode(ctx, input, n_bits, parity_location):
+def encode(
+    ctx: typer.Context,
+    input: str = typer.Argument(..., help="Input data word as hex string"),
+    n_bits: int = typer.Argument(
+        ..., help="Length of the input data word in number of bits"
+    ),
+    parity_location: ParityLocationChoices = typer.Argument(
+        "DEFAULT",
+        case_sensitive=False,
+        help="Speciy how the parity bits are placed in the encoded message",
+    ),
+):
     """
     Encode the provided input data word, which is interpreted
     as being word of the specified number of bits.
     """
+
     # decode the input string as a hexadecimal string
-    input_data = int(input, 16)
+    try:
+        input_data = int(input, 16)
+    except ValueError:
+        print("Input data must be a valid hexadecimal string")
+        sys.exit(1)
+
     n_bits = int(n_bits)
     if n_bits < 4:
         raise ValueError("Cannot encode values that are less than 4 bits in length!")
@@ -41,29 +56,44 @@ def encode(ctx, input, n_bits, parity_location):
     encoded_binary_string = hamming_codec.encode(input_data, n_bits, parity_location)
     encoded_int = int(encoded_binary_string, 2)
     if ctx.obj["VERBOSE"]:
-        print(f"Input value         : 0x{input}, size = {n_bits} bits")
+        print(f"Input value         : 0x{input.replace('0x','')}, size = {n_bits} bits")
         print(f"Input value (bin)   : 0b{input_data_binary_string}")
-        print(f"Encoded value       : 0x{hex(encoded_int)[2:]}")
+        print(f"Encoded value       : {hex(encoded_int)}")
         print(
             f"Encoded value (bin) : 0b{encoded_binary_string}, size = {len(encoded_binary_string)} bits"
         )
     else:
-        print(f"0x{hex(encoded_int)[2:]} {len(encoded_binary_string)}", file=sys.stdout)
+        print(f"{hex(encoded_int)} {len(encoded_binary_string)}", file=sys.stdout)
 
 
-@cli.command()
-@click.pass_context
-@click.argument("input", type=str)
-@click.argument("n-bits", type=int)
-@click.argument("parity-location", type=str, default="DEFAULT")
-@click.argument("n-parity-bits", type=int, default=0)
-def decode(ctx, input, n_bits, parity_location, n_parity_bits):
+def decode(
+    ctx: typer.Context,
+    input: str = typer.Argument(..., help="Input message to decode as a hex string"),
+    n_bits: int = typer.Argument(
+        ..., help="Length of the input message word in number of bits"
+    ),
+    parity_location: ParityLocationChoices = typer.Argument(
+        "DEFAULT",
+        case_sensitive=False,
+        help="Specify how the parity bits are placed in the encoded message",
+    ),
+    n_parity_bits: int = typer.Argument(
+        0,
+        help="Number of parity bits in the message (required for non-default parity location choice)",
+    ),
+):
     """
     Decode the input message that is the specified number of bits in
     length.
     """
+
     # input string as a hexadecimal string
-    input_data = int(input, 16)
+    try:
+        input_data = int(input, 16)
+    except ValueError:
+        print("Input data must be a valid hexadecimal string")
+        sys.exit(1)
+
     n_bits_input = int(n_bits)
     if n_bits_input < 4:
         raise ValueError("Cannot decode values that are less than 4 bits in length!")
@@ -80,17 +110,24 @@ def decode(ctx, input, n_bits, parity_location, n_parity_bits):
         raise ValueError(f'Invalid parity location provided: "{parity_location}"')
     parity_location = parity_location_map[parity_location]
 
+    if n_parity_bits == 0 and parity_location != hamming_codec.ParityLocation.DEFAULT:
+        raise ValueError(
+            "For non-default parity bit locations, the number of parity bits  must be specified"
+        )
+
     # decode
     decoded_binary_string = hamming_codec.decode(
         input_data, n_bits_input, parity_location, n_parity_bits
     )
     decoded_int = int(decoded_binary_string, 2)
     if ctx.obj["VERBOSE"]:
-        print(f"Input value         : 0x{input}, size = {n_bits_input} bits")
+        print(
+            f"Input value         : 0x{input.replace('0x','')}, size = {n_bits_input} bits"
+        )
         print(f"Input value (bin)   : 0b{input_data_binary_string}")
-        print(f"Decoded value       : 0x{hex(decoded_int)[2:]}")
+        print(f"Decoded value       : {hex(decoded_int)}")
         print(
             f"Decoded value (bin) : 0b{decoded_binary_string}, size = {len(decoded_binary_string)} bits"
         )
     else:
-        print(f"0x{hex(decoded_int)[2:]} {len(decoded_binary_string)}", file=sys.stdout)
+        print(f"{hex(decoded_int)} {len(decoded_binary_string)}", file=sys.stdout)

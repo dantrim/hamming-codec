@@ -6,7 +6,7 @@ requires = [
     "pybind11",
     "scikit-build",
     "ninja",
-    "click"
+    "typer"
 ]
 build-backend = "setuptools.build_meta"
 

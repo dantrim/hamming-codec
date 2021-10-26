@@ -1,21 +1,30 @@
 """hamming CLI"""
 
-import click
+import typer
+import sys
 
 from . import codec_cli
 
+app = typer.Typer()
 
-@click.group(context_settings=dict(help_option_names=["-h", "--help"]))
-@click.option("-v", "--verbose", is_flag=True, default=False)
-@click.pass_context
-def hamming(ctx, verbose):
-    """Top-level entrypoint into hamming-codec utilities."""
+
+@app.callback()
+def hamming(
+    ctx: typer.Context,
+    verbose: bool = typer.Option(False, "-v", "--verbose", help="Verbose output"),
+):
+    """Top-level entrypoint into hamming-codec commandline utilities"""
+
+    if ctx.invoked_subcommand is None:
+        print("No subcommand specified")
+        sys.exit(1)
 
     # ensure that ctx.obj exists and is a dict
     ctx.ensure_object(dict)
+
     # pass the verbose flag to the sub-commands
     ctx.obj["VERBOSE"] = verbose
 
 
-hamming.add_command(codec_cli.encode)
-hamming.add_command(codec_cli.decode)
+app.command()(codec_cli.encode)
+app.command()(codec_cli.decode)

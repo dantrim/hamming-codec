@@ -28,7 +28,7 @@ jobs:
                   python -m pip list
             - name: hamming
               run: |
-                  hamming -h
+                  hamming --help
             - name: hamming encode
               run: |
                   encoding=($(hamming encode 0x4235 16))
