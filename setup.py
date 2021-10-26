@@ -6,9 +6,10 @@ import subprocess
 from setuptools.command.sdist import sdist
 from setuptools.command.install import install
 
-from pybind11 import get_cmake_dir
+# from pybind11 import get_cmake_dir
 from pybind11.setup_helpers import Pybind11Extension, build_ext
-from setuptools import setup
+
+# from setuptools import setup
 
 # the directory containing this file
 HERE = pathlib.Path(__file__).parent
