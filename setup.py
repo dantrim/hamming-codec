@@ -30,12 +30,13 @@ except ImportError:
     raise
 
 ext_modules = [
-   Pybind11Extension("_hamming_codec",
-       ["src/python/module.cpp"],
-       include_dirs=["src/cpp"],
-       # Example: passing in the version to the compiled code
-       define_macros = [('VERSION_INFO', __version__),('BUILD_PYTHON', 'on')]
-       ),
+    Pybind11Extension(
+        "_hamming_codec",
+        ["src/python/module.cpp"],
+        include_dirs=["src/cpp"],
+        # Example: passing in the version to the compiled code
+        define_macros=[("VERSION_INFO", __version__), ("BUILD_PYTHON", "on")],
+    ),
 ]
 
 
