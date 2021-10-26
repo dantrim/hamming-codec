@@ -35,7 +35,7 @@ def encode(
     try:
         input_data = int(input, 16)
     except ValueError:
-        print(f"Input data must be a valid hexadecimal string")
+        print("Input data must be a valid hexadecimal string")
         sys.exit(1)
 
     n_bits = int(n_bits)

@@ -1,9 +1,9 @@
 """hamming CLI"""
 
 import typer
+import sys
 
 from . import codec_cli
-
 
 app = typer.Typer()
 
@@ -16,7 +16,7 @@ def hamming(
     """Top-level entrypoint into hamming-codec commandline utilities"""
 
     if ctx.invoked_subcommand is None:
-        print(f"No subcommand specified")
+        print("No subcommand specified")
         sys.exit(1)
 
     # ensure that ctx.obj exists and is a dict
