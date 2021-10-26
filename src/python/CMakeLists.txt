@@ -21,6 +21,7 @@ execute_process(
 message(STATUS "_tmp_dir = ${_tmp_dir}")
 list(APPEND CMAKE_PREFIX_PATH "${_tmp_dir}")
 pybind11_add_module(_hamming_codec MODULE module.cpp)
+message(STATUS "FOO HAMMING_CODEC_INCLUDE_DIRS = ${HAMMING_CODEC_INCLUDE_DIRS}")
 target_compile_definitions(_hamming_codec PRIVATE VERSION_INFO="${PROJECT_VERSION}")
 target_include_directories(_hamming_codec PRIVATE ${HAMMING_CODEC_INCLUDE_DIRS})
 install(TARGETS _hamming_codec DESTINATION .)
