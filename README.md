@@ -47,12 +47,8 @@ There are a few ways to do this:
   2. Add `hamming-codec` as a sub-module (or equivalent) and use CMake to expose the `HAMMING_CODEC_INCLUDE_DIRS`
         variable. See [src/cpp/examples/CMakeLists.txt](src/cpp/examples/CMakeLists.txt) for an example.
 
-Following either approach, you should be able to
-
-```c++
-#include "hamming_codec.h"
-```
-in your source code.
+Following either approach, you should be able to add `#include "hamming_codec.h"` to your
+source code.
 
 ## Python Usage
 
@@ -92,12 +88,12 @@ module and perform encoding/decoding like so:
 
 ```python
 >>> import hamming_codec
->>> encoded_message = hamming_codec.encode(0x4235, 16) # returns a binary string representation
+>>> encoded_message = hamming_codec.encode(0x4235, 16)
 >>> print(encoded_message)
 010001010001110101100
 >>> hex(int(encoded_message,2))
 '0x8a3ac'
->>> decoded_message = hamming_codec.decode(int(encoded_message,2), len(encoded_message)) # returns a binary string representation
+>>> decoded_message = hamming_codec.decode(int(encoded_message,2), len(encoded_message))
 >>> print(decoded_message)
 0100001000110101
 >>> hex(int(decoded_message,2))
@@ -105,7 +101,6 @@ module and perform encoding/decoding like so:
 ```
 
 ## C++ Usage
-
 
 ### Including in your Project
 
