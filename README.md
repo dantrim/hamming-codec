@@ -17,8 +17,8 @@ Simple encode/decode utilties for single-bit error correcting Hamming codes
      * [Command-line Usage](#from-the-command-line)
      * [Importing the `hamming_codec` Python Module](#importing-as-a-module)
  4. [C++ Usage](#c-usage)
+     * [Including in your Project](#including-in-your-project)
      * [Examples](#c-examples)
-     * [Linking to the Shared Library](#linking-to-the-shared-library)
  5. [Error-correction](#single-bit-error-correction)
  6. [References](#references)
 
@@ -30,24 +30,10 @@ Tested on Python `>=3.6` and requires C++ compilers supporting C++17 features.
 
 ## Python Installation
 
-Install using `pip` as follows, after which the command-line utility `hamming` will be available.
-This should ideally be done in a Python virtual environment:
+Install using `pip` as follows:
 
 ```bash
 $ python -m pip install hamming-codec
-$ hamming --help
-Usage: hamming [OPTIONS] COMMAND [ARGS]...
-
-Top-level entrypoint into hamming-codec utilities.
-
-Options:
-   -v, --verbose
-   -h, --help     Show this message and exit.
-
-Commands:
-   decode  Decode the input message that is the specified number of bits in...
-   encode  Encode the provided input data word, which is interpreted as
-            being...
 ```
 
 ## C++ Installation
@@ -57,7 +43,7 @@ one needs to include the single header file
 [src/cpp/hamming_codec.h](src/cpp/hamming_codec.h) in their project.
 There are a few ways to do this:
 
-  1. Copy the file [src/cpp/hamming_codec.h](src/cpp/hamming_codec.h) into your project's include path
+  1. Copy the file [hamming_codec.h](src/cpp/hamming_codec.h) into your project's include path.
   2. Add `hamming-codec` as a sub-module (or equivalent) and use CMake to expose the `HAMMING_CODEC_INCLUDE_DIRS`
         variable. See [src/cpp/examples/CMakeLists.txt](src/cpp/examples/CMakeLists.txt) for an example.
 
@@ -68,13 +54,13 @@ Following either approach, you should be able to
 ```
 in your source code.
 
-## Usage
+## Python Usage
 
 ### From the Command-line
 
 #### Encoding
 
-After [installation](#python-installation) you can Hamming encode messages of specified length (in number of bits) as follows:
+After [following the Python installation](#python-installation) you can Hamming encode messages of specified length (in number of bits) as follows:
 
 ```bash
 $ hamming encode 0x1234 16
@@ -85,7 +71,7 @@ Which shows that the 16-bit message `0x1234` is encoded as a 21-bit word `0x2a3a
 
 #### Decoding
 
-After [installation](#python-installation) you can decode Hamming encoded messages of specified length (in number of bits) as follows:
+After [following the Python installation](#python-installation) you can decode Hamming encoded messages of specified length (in number of bits) as follows:
 
 ```bash
 $ hamming decode 0x2a3a1 21
@@ -113,19 +99,12 @@ Once you have [installed hamming-codec](#python-installation), you can `import` 
 
 ## C++ Usage
 
-### C++ Examples
-After following the [steps to build the C++ library](#c-installation), you 
-can run the C++ examples. For example,
-```bash
-$ ./build/bin/example_encode 0x4235 16
-0x8a3ac 21
-```
 
-### Linking to the Shared Library
+### Including in your Project
 
-A shared library `hamming_codec_cpp.{so,dylib}` also gets built after following [the steps to build the C++ library](#c-installation),
-located under your build directory's `lib/` directory. By linking against this shared library in the
-usual manner, you can include the `hamming_codec` library into your own `C++` code as follows:
+Following the [steps to add `hamming-codec` to your include path](#c-installation),
+you can encode/decode messages as follows:
+
 ```c++
 #include "hamming_codec.h"
 ...
@@ -135,6 +114,14 @@ std::string encoded_message = hamming_codec::encode(input_message, n_bits);
 std::cout << "Encoded message: 0x" << std::hex << std::stoul(encoded_message, 0, 2) << std::endl; // prints "Encoded message: 0x8a3ac"
 std::string decoded_message = hamming_codec::decode(std::stoul(encoded_message, 0, 2), encoded_message.length());
 std::cout << "Decoded message: 0x" << std::hex << std::stoul(decoded_message, 0, 2) << std::endl; // prints "Decoded message: 0x4235"
+```
+
+### C++ Examples
+After following the [steps to build the C++ library](#c-installation), you 
+can run the C++ examples. For example,
+```bash
+$ ./build/bin/example_encode 0x4235 16
+0x8a3ac 21
 ```
 
 ## Single-bit Error Correction
