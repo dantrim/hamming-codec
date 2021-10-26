@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(hamming-codec VERSION 0.3.0)
+project(hamming-codec VERSION 0.3.1)
 
 ##
 ## setup the build output structure

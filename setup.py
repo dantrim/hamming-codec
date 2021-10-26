@@ -17,7 +17,7 @@ HERE = pathlib.Path(__file__).parent
 # the text of the README file
 README = (HERE / "README.md").read_text()
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 
 
 try:
