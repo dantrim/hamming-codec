@@ -1,6 +1,6 @@
-name: BuildWheels
+name: build_and_upload_wheels
 
-on: #[push, pull_request]
+on:
     push:
         tags:
             - '*'
@@ -8,8 +8,8 @@ on: #[push, pull_request]
         branches:
             - main
 
-env:
-    CIBW_BUILD: cp36-manylinux_x86_64 cp36-macosx_x86_64
+#env:
+#    CIBW_BUILD: cp36-manylinux_x86_64 cp36-macosx_x86_64
 
 #name: Wheels
 
