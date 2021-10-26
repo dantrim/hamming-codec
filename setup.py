@@ -29,13 +29,14 @@ except ImportError:
     )
     raise
 
-#ext_modules = [
-#    Pybind11Extension("_hamming_codec",
-#        ["src/python/module.cpp"],
-#        # Example: passing in the version to the compiled code
-#        define_macros = [('VERSION_INFO', __version__),('BUILD_PYTHON', 'on')],
-#        ),
-#]
+ext_modules = [
+   Pybind11Extension("_hamming_codec",
+       ["src/python/module.cpp"],
+       include_dirs=["src/cpp"],
+       # Example: passing in the version to the compiled code
+       define_macros = [('VERSION_INFO', __version__),('BUILD_PYTHON', 'on')]
+       ),
+]
 
 
 def check_submodules():
@@ -96,7 +97,7 @@ setup(
     package_dir={"": "src/python"},
     packages=["hamming_codec", "cli"],
     install_requires=["typer"],
-    #ext_modules=ext_modules,
+    ext_modules=ext_modules,
     cmake_args=["-DBUILD_PYTHON=on"],
     cmake_install_dir="src/python/hamming_codec",
     entry_points={"console_scripts": ["hamming=cli:cli.app"]},
