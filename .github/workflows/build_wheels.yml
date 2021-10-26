@@ -24,6 +24,7 @@ jobs:
 
             - uses: actions/upload-artifact@v2
               with:
+                  name: my-wheels
                   path: ./wheelhouse/*.whl
 
     build_sdist:
@@ -46,6 +47,7 @@ jobs:
 
             - uses: actions/upload-artifact@v2
               with:
+                  name: my-dist
                   path: dist/*.tar.gz
 
     upload_pypi:
