@@ -11,7 +11,7 @@ if(SKBUILD)
   message(STATUS "Python_LIBRARIES = ${Python_LIBRARIES}")
 endif()
 set(Python_FIND_IMPLEMENTATIONS CPython)
-find_package(Python REQUIRED COMPONENTS Interpreter Development)
+#find_package(Python REQUIRED COMPONENTS Interpreter Development)
 execute_process(
   COMMAND
     "${Python_EXECUTABLE}" -c
