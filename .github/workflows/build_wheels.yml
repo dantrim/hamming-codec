@@ -3,7 +3,7 @@ name: BuildWheels
 on: [push, pull_request]
 
 env:
-    CIBW_BUILD: cp36-manylinux_x86_64
+    CIBW_BUILD: cp36-manylinux_x86_64 cp36-macosx_x86_64
 
 #name: Wheels
 
