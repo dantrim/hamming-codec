@@ -6,6 +6,11 @@ import subprocess
 from setuptools.command.sdist import sdist
 from setuptools.command.install import install
 
+# from pybind11 import get_cmake_dir
+from pybind11.setup_helpers import Pybind11Extension, build_ext
+
+# from setuptools import setup
+
 # the directory containing this file
 HERE = pathlib.Path(__file__).parent
 
@@ -24,6 +29,16 @@ except ImportError:
         file=sys.stderr,
     )
     raise
+
+ext_modules = [
+    Pybind11Extension(
+        "_hamming_codec",
+        ["src/python/module.cpp"],
+        include_dirs=["src/cpp"],
+        # Example: passing in the version to the compiled code
+        define_macros=[("VERSION_INFO", __version__), ("BUILD_PYTHON", "on")],
+    ),
+]
 
 
 def check_submodules():
@@ -84,9 +99,10 @@ setup(
     package_dir={"": "src/python"},
     packages=["hamming_codec", "cli"],
     install_requires=["typer"],
+    ext_modules=ext_modules,
     cmake_args=["-DBUILD_PYTHON=on"],
     cmake_install_dir="src/python/hamming_codec",
     entry_points={"console_scripts": ["hamming=cli:cli.app"]},
-    cmdclass={"install": InstallChecker, "sdist": SdistChecker},
+    cmdclass={"build_ext": build_ext, "install": InstallChecker, "sdist": SdistChecker},
     include_package_data=True,
 )
