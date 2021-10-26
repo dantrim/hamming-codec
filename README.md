@@ -58,9 +58,14 @@ in your source code.
 
 ### From the Command-line
 
+After [following the Python installation](#python-installation), a commandline utility
+`hamming` will be available to you, which can be used for simple encoding and decoding
+of data words. Use `hamming --help` to show the full set of options and commands.
+
 #### Encoding
 
-After [following the Python installation](#python-installation) you can Hamming encode messages of specified length (in number of bits) as follows:
+You can use the `hamming` commandline utility to encode messages of specified length
+(in number of bits) as follows:
 
 ```bash
 $ hamming encode 0x1234 16
@@ -71,7 +76,7 @@ Which shows that the 16-bit message `0x1234` is encoded as a 21-bit word `0x2a3a
 
 #### Decoding
 
-After [following the Python installation](#python-installation) you can decode Hamming encoded messages of specified length (in number of bits) as follows:
+You can use the `hamming` commandline utility to decode messages of specified length (in number of bits) as follows:
 
 ```bash
 $ hamming decode 0x2a3a1 21
@@ -82,7 +87,9 @@ Which shows that the 21-bit encoded message `0x2a3a1` is decoded back into the 1
 
 #### Importing as a Module
 
-Once you have [installed hamming-codec](#python-installation), you can `import` it and perform encoding/decoding as follows:
+Once you have [installed hamming-codec](#python-installation), you can import the `hamming_codec`
+module and perform encoding/decoding like so:
+
 ```python
 >>> import hamming_codec
 >>> encoded_message = hamming_codec.encode(0x4235, 16) # returns a binary string representation
