@@ -46,7 +46,8 @@ There are a few ways to do this:
 
   1. Copy the file [hamming_codec.h](src/cpp/hamming_codec.h) into your project's include path.
   2. Add `hamming-codec` as a sub-module (or equivalent) and use CMake to expose the `HAMMING_CODEC_INCLUDE_DIRS`
-        variable. See [src/cpp/examples/CMakeLists.txt](src/cpp/examples/CMakeLists.txt) for an example.
+        variable by calling `add_subdirectory(/path/to/hamming_codec)` to your project's CMakeLists.txt file.
+     See [src/cpp/examples/CMakeLists.txt](src/cpp/examples/CMakeLists.txt) for an example.
 
 Following either approach, you should be able to add `#include "hamming_codec.h"` to your
 source code.
