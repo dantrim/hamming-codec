@@ -58,7 +58,7 @@ namespace hamming_codec {
     namespace utils {
 
         // convert an integer into a binary string
-        std::string int2bin(const uint64_t& data, const uint32_t& n_bits) {
+        static inline std::string int2bin(const uint64_t& data, const uint32_t& n_bits) {
 
             std::string binary_string = "";
             uint64_t mask = 1;
@@ -74,7 +74,7 @@ namespace hamming_codec {
         }
 
         template <class T>
-        std::string join(const std::vector<T>& vec) {
+        static inline std::string join(const std::vector<T>& vec) {
             std::stringstream sx;
             for(const auto& x: vec) {
                 sx << x;
@@ -84,18 +84,18 @@ namespace hamming_codec {
         template std::string join<std::string>(const std::vector<std::string>&);
         template std::string join<int>(const std::vector<int>&);
 
-        std::vector<char> split(const std::string& s) {
+        static inline std::vector<char> split(const std::string& s) {
             std::vector<char> out(s.begin(), s.end());
             return out;
         }
 
-        std::string reverse_string(const std::string& input) {
+        static inline std::string reverse_string(const std::string& input) {
             std::string out = input;
             std::reverse_copy(input.begin(), input.end(), out.begin());
             return out;
         }
 
-        std::vector<std::string> replace_with(std::vector<std::string>& seed,
+        static inline std::vector<std::string> replace_with(std::vector<std::string>& seed,
                 const std::vector<std::string>& fill, const std::string& flag = "x") {
             if(flag.length() != 1) {
                 std::stringstream e;
@@ -117,7 +117,7 @@ namespace hamming_codec {
             return seed;
         }
 
-        std::string remove_chars_at(const std::string& init, const std::vector<uint64_t>& positions) {
+        static inline std::string remove_chars_at(const std::string& init, const std::vector<uint64_t>& positions) {
             std::stringstream output;
             for(size_t i = 0; i < init.size(); i++) {
                 if(std::find(positions.begin(), positions.end(), static_cast<uint32_t>(i)) == positions.end()) {
@@ -137,7 +137,7 @@ namespace hamming_codec {
 
         // compute the number of parity bits required for encoding
         // a message of size n_bits
-        uint64_t n_parity_bits_required(const uint64_t& n_bits) {
+        static inline uint64_t n_parity_bits_required(const uint64_t& n_bits) {
             uint64_t p = 1;
             while(true) {
                 uint64_t lhs = static_cast<uint64_t>(pow(2, p));
@@ -150,7 +150,7 @@ namespace hamming_codec {
 
         // determine the bit positions of the parity bits for an encoded message
         // that has n_parity_bits
-        std::vector<uint64_t> compute_parity_bit_positions(const uint32_t& n_parity_bits) {
+        static inline std::vector<uint64_t> compute_parity_bit_positions(const uint32_t& n_parity_bits) {
             std::vector<uint64_t> positions;
             for(size_t i = 0; i < n_parity_bits; i++) {
                 positions.push_back(static_cast<uint64_t>(pow(2,i)-1));
@@ -159,7 +159,7 @@ namespace hamming_codec {
         }
 
         // computes the values of the parity bits
-        std::vector<uint32_t> compute_parity_bits(const std::string& binary_string, const std::vector<uint64_t>& parity_bit_positions, const bool& inclusive) {
+        static inline std::vector<uint32_t> compute_parity_bits(const std::string& binary_string, const std::vector<uint64_t>& parity_bit_positions, const bool& inclusive) {
             std::vector<unsigned> parity_bits(parity_bit_positions.size());
 
             std::vector<unsigned> range;
@@ -206,7 +206,7 @@ namespace hamming_codec {
         // create a "seed" string from which the final encoded message will be
         // constructed, leaving the parity bit positions as the character 'x'
         // and the rest of the positions the data message provided in 'word_to_split'
-        std::vector<std::string> create_seed_string_array(const std::vector<uint64_t>& skip_positions, const unsigned& length, const std::string& word_to_split) {
+        static inline std::vector<std::string> create_seed_string_array(const std::vector<uint64_t>& skip_positions, const unsigned& length, const std::string& word_to_split) {
             std::vector<std::string> seed_string_arr{length, "x"};
             unsigned data_idx = 0;
             for(unsigned i = 0; i < length; i++) {
@@ -222,7 +222,7 @@ namespace hamming_codec {
 
     // encode the message `data` which should be interpreted as being
     // composed of `n_bits` bits
-    std::string encode(const uint64_t& data, const uint32_t& n_bits, const ParityLocation& parity_loc = ParityLocation::DEFAULT) {
+    static inline std::string encode(const uint64_t& data, const uint32_t& n_bits, const ParityLocation& parity_loc = ParityLocation::DEFAULT) {
         std::string binary_string = hu::int2bin(data, n_bits);
 
         // reverse so that string character index 0 corresponds to the LSB
@@ -295,7 +295,7 @@ namespace hamming_codec {
 
     // for a given message and parity bit block string, place each of the parity bits
     // in the provided positions
-    std::string fill_parity_bits(const std::string& message_without_parity, const std::string& parity_bit_block_str,
+    static inline std::string fill_parity_bits(const std::string& message_without_parity, const std::string& parity_bit_block_str,
                                     const std::vector<uint64_t>& parity_bit_positions) {
         std::string message_with_parity{""};
         if(parity_bit_block_str.length() != parity_bit_positions.size()) {
@@ -319,7 +319,7 @@ namespace hamming_codec {
 
     // decode the hamming encoded message `data` which should be interpreted as
     // being `n_bits` long
-    std::string decode(const uint64_t& data, const uint32_t& n_bits, const ParityLocation& parity_loc = ParityLocation::DEFAULT, uint32_t n_parity_bits = 0) {
+    static inline std::string decode(const uint64_t& data, const uint32_t& n_bits, const ParityLocation& parity_loc = ParityLocation::DEFAULT, uint32_t n_parity_bits = 0) {
         std::string binary_string = hu::int2bin(data, n_bits);
         if(n_parity_bits == 0 && parity_loc != ParityLocation::DEFAULT) {
             throw std::logic_error("Cannot decode message: must specify number of parity bits for non-default encoding");
