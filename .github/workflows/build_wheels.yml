@@ -77,7 +77,7 @@ jobs:
     name: Upload # if release
     needs: [build_wheels, build_sdist]
     runs-on: ubuntu-latest
-    #if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
+    if: ${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
 
     steps:
     - uses: actions/setup-python@v2
