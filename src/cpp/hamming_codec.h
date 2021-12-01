@@ -9,7 +9,7 @@
                                          |___/                                  
 
 hamming-codec
-version 0.3.4
+version 0.3.5
 https://github.com/dantrim/hamming-codec
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>.
