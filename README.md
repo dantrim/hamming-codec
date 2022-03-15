@@ -1,4 +1,5 @@
 # hamming-codec
+
 Simple encode/decode utilties for single-bit error correcting Hamming codes
 
 [![GitHub Actions Status Badge: CI/CD]][GitHub Actions Status: CI/CD]
