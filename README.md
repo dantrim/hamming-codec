@@ -102,6 +102,7 @@ module and perform encoding/decoding like so:
 >>> hex(int(decoded_message,2))
 '0x4235'
 ```
+[Click hera](https://www.scaler.com/topics/advantages-of-python/) to know more about Python uasge
 
 ## C++ Usage
 
