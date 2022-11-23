@@ -155,6 +155,7 @@ Further information about the Hamming encoding algorithm employed within `hammin
   * [tutorialspoint's "Error Correcting Codes - Hamming codes"](https://www.tutorialspoint.com/error-correcting-codes-hamming-codes)
   * [Wikipedia entry for "Hamming Code"](https://en.wikipedia.org/wiki/Hamming_code)
   * [Wikipedia entry for "Linear error-correcting codes"](https://en.wikipedia.org/wiki/Linear_code)
+  * [Hamming Code - Scaler Topics](https://www.scaler.com/topics/hamming-code/)
 
 <!--- LINKS --->
 [pre-commit.ci status badge]:https://results.pre-commit.ci/badge/github/dantrim/hamming-codec/main.svg
