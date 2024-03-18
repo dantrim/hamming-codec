@@ -6,7 +6,7 @@ def n_parity_bits_required(n_bits: int) -> int:
 
     p = 1
     while True:
-        lhs = 2 ** p
+        lhs = 2**p
         rhs = p + n_bits + 1
         if lhs >= rhs:
             break
@@ -46,7 +46,7 @@ def encode(data: int, n_bits: int) -> str:
 
     # parity bits are at powers of 2
     n_parity_bits = n_parity_bits_required(n_bits)
-    parity_bit_positions = [2 ** i - 1 for i in range(n_parity_bits)]
+    parity_bit_positions = [2**i - 1 for i in range(n_parity_bits)]
 
     len_encoded_message = n_parity_bits + n_bits
     parity_bit_positions = list(
@@ -85,7 +85,7 @@ def decode(binary_string: str, n_bits: int) -> str:
     # binary string must not have the "0b" preceding characters
 
     n_parity_bits = n_parity_bits_required(n_bits)
-    parity_bit_positions = [2 ** i - 1 for i in range(n_parity_bits)]
+    parity_bit_positions = [2**i - 1 for i in range(n_parity_bits)]
     parity_bit_positions = list(
         filter(lambda x: x < len(binary_string), parity_bit_positions)
     )
