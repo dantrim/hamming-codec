@@ -63,7 +63,7 @@ def check_submodules():
 
 
 class SdistChecker(sdist):
-    """ check submodules on sdist to prevent incomplete tarballs """
+    """check submodules on sdist to prevent incomplete tarballs"""
 
     def run(self):
         check_submodules()
@@ -71,7 +71,7 @@ class SdistChecker(sdist):
 
 
 class InstallChecker(install):
-    """ check submodules on install to prevent failed installs """
+    """check submodules on install to prevent failed installs"""
 
     def run(self):
         check_submodules()
